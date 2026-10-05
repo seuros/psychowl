@@ -56,4 +56,7 @@ jobs:
         uses: Swatinem/rust-cache@v2
       - if: matrix.engine == 'native'
         run: bundle exec rake compile
+      - if: matrix.engine == 'native'
+        name: Native extension is loaded
+        run: bundle exec ruby -Ilib -rpsychowl -e 'abort "native extension not loaded" unless Psychowl.backend == :native'
       - run: bundle exec rake test
