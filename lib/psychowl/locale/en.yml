@@ -1,0 +1,6 @@
+en:
+  errors:
+    messages:
+      language_undetected: "is not written in a recognizable language"
+      language_not_allowed: "is written in %{language}, which is not allowed"
+      language_uncertain: "could not be identified reliably (looks like %{language})"

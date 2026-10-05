@@ -1,0 +1,5 @@
+# jpn: one sample per line. The first line is from whatlang tests/examples.json (MIT).
+Rust（ラスト）は並列かつマルチパラダイムのプログラミング言語である
+今日はとても暑いので、冷たいものが飲みたいです。
+日本語を勉強するのは難しいですが、とても楽しいです。
+明日の会議は午後三時から始まりますので、遅れないでください。

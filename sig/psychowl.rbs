@@ -1,0 +1,80 @@
+module Psychowl
+  VERSION: String
+
+  type lang_code = Lang | String | Symbol
+  type lang_list = Array[lang_code] | lang_code
+
+  def self.detect: (String text, ?allowlist: lang_list?, ?denylist: lang_list?) -> Info?
+  def self.detect_lang: (String text, ?allowlist: lang_list?, ?denylist: lang_list?) -> Lang?
+  def self.detect_script: (String text) -> Script?
+  def self.candidates: (String text, ?limit: Integer?, ?allowlist: lang_list?, ?denylist: lang_list?) -> Array[[Lang, Float]]
+  def self.detect_many: (Array[String] texts, ?allowlist: lang_list?, ?denylist: lang_list?) -> Array[Info?]
+  def self.segments: (String text, ?allowlist: lang_list?, ?denylist: lang_list?) -> Array[Segment]
+  def self.scripts: (String text) -> Hash[Script, Float]
+  def self.backend: () -> (:native | :ruby)
+
+  class Lang
+    attr_reader code: String
+    attr_reader iso639_1: String
+    attr_reader name: String
+    attr_reader eng_name: String
+
+    def self.all: () -> Array[Lang]
+    def self.[]: (lang_code code) -> Lang?
+    def self.fetch: (lang_code code) -> Lang
+    def locale: () -> Symbol
+    def pg_regconfig: () -> String
+    def to_s: () -> String
+  end
+
+  class Script
+    attr_reader name: String
+    attr_reader langs: Array[Lang]
+
+    def self.all: () -> Array[Script]
+    def self.[]: (Script | String | Symbol name) -> Script?
+    def self.fetch: (Script | String | Symbol name) -> Script
+    def to_s: () -> String
+  end
+
+  class Info
+    RELIABLE_CONFIDENCE: Float
+
+    attr_reader lang: Lang
+    attr_reader script: Script
+    attr_reader confidence: Float
+    attr_reader reliable: bool
+
+    def reliable?: () -> bool
+  end
+
+  class Segment
+    attr_reader text: String
+    attr_reader range: Range[Integer]
+    attr_reader info: Info
+
+    def lang: () -> Lang
+    def script: () -> Script
+    def confidence: () -> Float
+  end
+
+  class Detector
+    attr_reader allowlist: Array[Lang]?
+    attr_reader denylist: Array[Lang]?
+
+    def initialize: (?allowlist: lang_list?, ?denylist: lang_list?) -> void
+    def detect: (String text) -> Info?
+    def detect_lang: (String text) -> Lang?
+    def detect_script: (String text) -> Script?
+    def candidates: (String text, ?limit: Integer?) -> Array[[Lang, Float]]
+    def detect_many: (Array[String] texts) -> Array[Info?]
+    def segments: (String text) -> Array[Segment]
+    def scripts: (String text) -> Hash[Script, Float]
+  end
+
+  module Postgres
+    REGCONFIGS: Hash[String, String]
+
+    def self.regconfig: (lang_code lang) -> String
+  end
+end

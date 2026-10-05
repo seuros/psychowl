@@ -1,0 +1,5 @@
+# eng: one sample per line. The first line is from whatlang tests/examples.json (MIT).
+Showing that even in the modern warfare of the 1930s and 1940s, the dilapidated fortifications still had defensive usefulness.
+The quick brown fox jumps over the lazy dog while the farmer watches from the porch.
+I would like to book a table for two people at seven o clock tomorrow evening.
+Scientists have discovered a new species of frog living deep in the Amazon rainforest.

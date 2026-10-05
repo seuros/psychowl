@@ -1,0 +1,20 @@
+[package]
+name = "psychowl"
+version = "0.1.0"
+description = "Natural language and script detection. It knows what language you speak."
+keywords = ["language", "detection", "nlp", "i18n", "text"]
+categories = ["text-processing", "internationalization"]
+readme = "README.md"
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+include = ["src/**/*.rs", "build.rs", "data/**/*", "README.md", "LICENSE*"]
+
+[lints]
+workspace = true
+
+[dependencies]
+rustc-hash.workspace = true
+thiserror.workspace = true

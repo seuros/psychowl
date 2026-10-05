@@ -1,0 +1,5 @@
+# spa: one sample per line. The first line is from whatlang tests/examples.json (MIT).
+Y así mismo, aunque no son tan ágiles en el suelo como el vampiro común, son muy competentes al escalar por las ramas.
+Me gustaría reservar una mesa para dos personas mañana por la noche, por favor.
+El gobierno anunció nuevas medidas para mejorar la educación pública en todo el país.
+Fuimos a la playa el fin de semana y el agua estaba muy agradable.

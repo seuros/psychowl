@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust:
+    name: Rust crate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1 # the FFI crate needs Ruby headers to build
+        with:
+          ruby-version: "4.0"
+      - uses: dtolnay/rust-toolchain@1.99
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --all --check
+      - run: bundle install && bundle exec rubocop
+      - run: cargo clippy --workspace --all-targets -- -D warnings
+      - run: cargo test -p psychowl
+      - run: cargo package -p psychowl --allow-dirty
+
+  ruby:
+    name: ${{ matrix.ruby }} (${{ matrix.engine }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { ruby: "3.3", engine: native, os: ubuntu-latest }
+          - { ruby: "3.4", engine: native, os: ubuntu-latest }
+          - { ruby: "4.0", engine: native, os: ubuntu-latest }
+          - { ruby: "4.0", engine: native, os: macos-latest }
+          - { ruby: "4.0", engine: ruby, os: ubuntu-latest }
+          - { ruby: jruby, engine: ruby, os: ubuntu-latest }
+          - { ruby: truffleruby, engine: ruby, os: ubuntu-latest }
+    env:
+      DISABLE_PSYCHOWL_NATIVE: ${{ matrix.engine == 'ruby' && '1' || '' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - if: matrix.engine == 'native'
+        uses: dtolnay/rust-toolchain@1.99
+      - if: matrix.engine == 'native'
+        uses: Swatinem/rust-cache@v2
+      - if: matrix.engine == 'native'
+        run: bundle exec rake compile
+      - run: bundle exec rake test

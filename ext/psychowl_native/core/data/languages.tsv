@@ -1,0 +1,12 @@
+# Supported languages, sorted by code. Line order defines language indices.
+# code (ISO 639-3)	ISO 639-1	English name	native name
+ara	ar	Arabic	العربية
+cmn	zh	Mandarin	普通话
+deu	de	German	Deutsch
+eng	en	English	English
+fra	fr	French	Français
+ita	it	Italian	Italiano
+jpn	ja	Japanese	日本語
+por	pt	Portuguese	Português
+rus	ru	Russian	Русский
+spa	es	Spanish	Español

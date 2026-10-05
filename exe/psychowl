@@ -1,0 +1,106 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'json'
+require 'optparse'
+require 'psychowl'
+
+options = { mode: :detect, json: false }
+
+parser = OptionParser.new do |opts|
+  opts.banner = <<~BANNER
+    Usage: psychowl [options] [FILE...]
+
+    Detects the language of each FILE, or of standard input.
+
+  BANNER
+  opts.on('-j', '--json', 'JSON output') { options[:json] = true }
+  opts.on('-l', '--lines', 'Detect every line separately (batch)') { options[:mode] = :lines }
+  opts.on('-c', '--candidates [N]', Integer, 'Rank candidate languages (top N)') do |limit|
+    options[:mode] = :candidates
+    options[:limit] = limit
+  end
+  opts.on('-s', '--segments', 'Split mixed-language text into segments') { options[:mode] = :segments }
+  opts.on('--scripts', 'Show the writing systems used') { options[:mode] = :scripts }
+  opts.on('-a', '--allow LANGS', Array, 'Only consider these languages, e.g. en,fr') do |langs|
+    options[:allowlist] = langs
+  end
+  opts.on('-d', '--deny LANGS', Array, 'Never consider these languages') { |langs| options[:denylist] = langs }
+  opts.on('--languages', 'List supported languages') { options[:mode] = :languages }
+  opts.on('-v', '--version', 'Show version and engine') do
+    puts "psychowl #{Psychowl::VERSION} (#{Psychowl.backend} engine)"
+    exit
+  end
+  opts.on('-h', '--help', 'Show this help') do
+    puts opts
+    exit
+  end
+end
+
+def info_hash(info)
+  return nil unless info
+
+  { lang: info.lang.code, iso639_1: info.lang.iso639_1, name: info.lang.eng_name,
+    script: info.script.name, confidence: info.confidence, reliable: info.reliable? }
+end
+
+def info_line(info)
+  return 'unknown' unless info
+
+  [info.lang.code, info.lang.eng_name, info.script.name, format('%.2f', info.confidence),
+   info.reliable? ? 'reliable' : 'unreliable'].join("\t")
+end
+
+def emit(options, json, text)
+  puts options[:json] ? JSON.generate(json) : text
+end
+
+begin
+  parser.parse!
+  filter = options.slice(:allowlist, :denylist)
+  detector = Psychowl::Detector.new(**filter)
+
+  if options[:mode] == :languages
+    langs = Psychowl::Lang.all
+    emit(options, langs.map { |lang| { code: lang.code, iso639_1: lang.iso639_1, name: lang.eng_name } },
+         langs.map { |lang| [lang.code, lang.iso639_1, lang.eng_name, lang.name].join("\t") }.join("\n"))
+    exit
+  end
+
+  input = ARGF.read.force_encoding(Encoding::UTF_8)
+  detected = true
+
+  case options[:mode]
+  when :detect
+    info = detector.detect(input)
+    detected = !info.nil?
+    emit(options, info_hash(info), info_line(info))
+  when :lines
+    lines = input.lines(chomp: true)
+    infos = detector.detect_many(lines)
+    emit(options, infos.map { |info| info_hash(info) }, infos.map { |info| info_line(info) }.join("\n"))
+  when :candidates
+    ranked = detector.candidates(input, limit: options[:limit])
+    detected = !ranked.empty?
+    emit(options, ranked.map { |lang, score| { lang: lang.code, name: lang.eng_name, score: } },
+         ranked.map { |lang, score| [lang.code, lang.eng_name, format('%.4f', score)].join("\t") }.join("\n"))
+  when :segments
+    segments = detector.segments(input)
+    detected = !segments.empty?
+    emit(options,
+         segments.map do |segment|
+           info_hash(segment.info).merge(start: segment.range.begin, end: segment.range.end, text: segment.text)
+         end,
+         segments.map { |segment| [segment.range, info_line(segment.info), segment.text.strip].join("\t") }.join("\n"))
+  when :scripts
+    shares = detector.scripts(input)
+    detected = !shares.empty?
+    emit(options, shares.to_h { |script, share| [script.name, share] },
+         shares.map { |script, share| [script.name, format('%.1f%%', share * 100)].join("\t") }.join("\n"))
+  end
+
+  exit(detected ? 0 : 1)
+rescue OptionParser::ParseError, ArgumentError, EncodingError, SystemCallError => e
+  warn "psychowl: #{e.message}"
+  exit 2
+end

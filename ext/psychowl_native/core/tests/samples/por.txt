@@ -1,0 +1,5 @@
+# por: one sample per line. The first line is from whatlang tests/examples.json (MIT).
+Aliás, no dia 8, antes da estreia do filme no mercado latino, o produtor Luiz Carlos Barreto, de 81 anos, pai do diretor, começa em 52 municípios gaúchos que não têm cinemas o seu projeto itinerante Roda Brasil.
+Eu gostaria de reservar uma mesa para duas pessoas amanhã à noite, por favor.
+O governo anunciou novas medidas para melhorar a educação pública em todo o país.
+Nós fomos à praia no fim de semana e a água estava muito agradável.

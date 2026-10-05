@@ -1,0 +1,5 @@
+# deu: one sample per line. The first line is from whatlang tests/examples.json (MIT).
+Es ist die Zeit des Sommers, des üppigen Wachstums, des Eintritts in die Pubertät und des Erwachens der Sexualität.
+Ich habe gestern einen langen Spaziergang durch den Wald gemacht und viele Vögel gesehen.
+Die Bundesregierung hat neue Maßnahmen zur Förderung erneuerbarer Energien beschlossen.
+Könnten Sie mir bitte sagen, wie ich am schnellsten zum Hauptbahnhof komme?

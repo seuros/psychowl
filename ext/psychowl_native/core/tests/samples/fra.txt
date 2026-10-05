@@ -1,0 +1,5 @@
+# fra: one sample per line. The first line is from whatlang tests/examples.json (MIT).
+La CGT avait d'ailleurs critiqué l'avis de la Commission de garanties qui marquait, selon elle, le début d'"un processus sans fin d'allongement de la durée de cotisation pour tous les salariés" qui passerait ensuite à 42 ans en 2020.
+Je voudrais réserver une table pour deux personnes demain soir à vingt heures.
+Le gouvernement a annoncé de nouvelles mesures pour protéger l environnement et la biodiversité.
+Nous sommes allés à la plage pendant les vacances et il a fait très beau toute la semaine.

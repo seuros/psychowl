@@ -1,0 +1,10 @@
+# Letters commonly used by a language, lowercase. Only used for scripts
+# shared by several languages (Latin, Cyrillic).
+# code	letters
+deu	abcdefghijklmnopqrstuvwxyzßäöü
+eng	abcdefghijklmnopqrstuvwxyz
+fra	abcdefghijklmnopqrstuvwxyzàâçèéêëîïôùûüÿœ
+ita	abcdefghijklmnopqrstuvwxyzàèéìòù
+por	abcdefghijklmnopqrstuvwxyzàáâãçéêíóôõú
+rus	абвгдежзийклмнопрстуфхцчшщъыьэюяё
+spa	abcdefghijklmnopqrstuvwxyz¡¿áéíñóúü

@@ -1,0 +1,5 @@
+# ita: one sample per line. The first line is from whatlang tests/examples.json (MIT).
+Giocò un ruolo di grande importanza nel movimento comunista internazionale con l'avvio di un processo di distanziamento dall'Unione Sovietica e l'elaborazione di un modello alternativo che prese il nome di eurocomunismo.
+Vorrei prenotare un tavolo per due persone domani sera alle otto, per favore.
+Il governo ha presentato una nuova legge per sostenere le piccole imprese del paese.
+Siamo andati al mare durante le vacanze e abbiamo mangiato del pesce buonissimo.
