@@ -10,7 +10,7 @@ class ScriptTest < Minitest::Test
   end
 
   def test_langs
-    assert_equal %w[deu eng fra ita por spa], Psychowl::Script[:latin].langs.map(&:code)
+    assert_equal %w[deu eng fra ind ita nld pol por spa tur vie], Psychowl::Script[:latin].langs.map(&:code)
     assert_equal %w[cmn jpn], Psychowl::Script[:han].langs.map(&:code)
     assert_empty Psychowl::Script[:greek].langs
   end

@@ -13,10 +13,13 @@ module Psychowl
       'deu' => 'german',
       'eng' => 'english',
       'fra' => 'french',
+      'ind' => 'indonesian',
       'ita' => 'italian',
+      'nld' => 'dutch',
       'por' => 'portuguese',
       'rus' => 'russian',
-      'spa' => 'spanish'
+      'spa' => 'spanish',
+      'tur' => 'turkish'
     }.freeze
 
     # @param lang [Lang, String, Symbol]

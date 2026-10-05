@@ -9,7 +9,7 @@ class CandidatesTest < Minitest::Test
     candidates = Psychowl.candidates(PORTUGUESE)
 
     assert_equal(%w[por spa], candidates.first(2).map { |lang, _| lang.code })
-    assert_equal 6, candidates.size
+    assert_equal Psychowl::Script[:latin].langs.size, candidates.size
     assert_equal candidates.map(&:last).sort.reverse, candidates.map(&:last)
   end
 
@@ -18,7 +18,7 @@ class CandidatesTest < Minitest::Test
   end
 
   def test_single_language_script
-    assert_equal [[Psychowl::Lang[:rus], 1.0]], Psychowl.candidates('Привет, как дела?')
+    assert_equal [[Psychowl::Lang[:ara], 1.0]], Psychowl.candidates('مرحبا بالعالم')
   end
 
   def test_nothing_to_detect

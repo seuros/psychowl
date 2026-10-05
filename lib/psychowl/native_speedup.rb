@@ -14,6 +14,14 @@ rescue LoadError
   return
 end
 
+# An extension built from other data files would map indices to the wrong
+# languages: keep the Ruby engine instead.
+expected = [Psychowl::Tables::LANGUAGES.map(&:first), Psychowl::Tables::SCRIPTS.map(&:name)]
+unless PsychowlNative.tables == expected
+  warn "psychowl: native extension was built from different language data (rebuild it); using the pure Ruby engine"
+  return
+end
+
 # Swaps the Rust extension in behind Engine.
 module Psychowl
   # Routes every Engine method to the Rust extension (PsychowlNative).

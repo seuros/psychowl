@@ -39,6 +39,14 @@ Heads of state make the best test data: they talk a lot and say nothing.
 | ara | فاز الرئيس في الانتخابات بنسبة تسعة وتسعين في المئة. مرة أخرى. | The president won the election with 99%. Again. |
 | cmn | 小熊维尼今天又被禁止了。 | Winnie the Pooh was banned again today. |
 | jpn | 首相は「前向きに検討します」と言いました。 | The prime minister said he will "consider it positively". |
+| kor | 대통령은 부동산 가격이 안정되었다고 말했다. 집값은 그 말을 듣지 못했다. | The president said housing prices have stabilized. Housing prices didn't hear him. |
+| hin | नेताजी ने वादा किया कि इस बार बिजली नहीं जाएगी। फिर बिजली चली गई। | The politician promised the power won't go out this time. Then the power went out. |
+| tur | Bakan, ekonominin uçuşa geçtiğini söyledi. Kimse paraşüt dağıtmadı. | The minister said the economy has taken off. Nobody handed out parachutes. |
+| nld | De regering is gevallen. Dat is al de derde keer deze maand, en het is pas dinsdag. | The government has fallen. Third time this month, and it's only Tuesday. |
+| pol | Prezydent obiecał, że pociąg przyjedzie punktualnie. Pociąg nie został o tym poinformowany. | The president promised the train will be on time. Nobody told the train. |
+| ukr | Сова нагадує: урок не пройдено. Вона вже їде до тебе. | The owl reminds you: lesson not done. It is already on its way to you. |
+| ind | Pejabat itu bilang jalan tol akan selesai tahun depan. Dia mengatakan hal yang sama sepuluh tahun lalu. | The official says the toll road is done next year. He said the same ten years ago. |
+| vie | Ông quan chức hứa sẽ sửa đường ngay tuần sau. Tuần sau đó đã kéo dài ba năm. | The official promised to fix the road next week. That week has lasted three years. |
 
 ## Installation
 
@@ -165,12 +173,12 @@ Languages are added in waves; adding one is a data change, not a code change
 | Wave | Languages |
 |---|---|
 | 1 (0.1) | Arabic, English, French, German, Italian, Japanese, Mandarin, Portuguese, Russian, Spanish |
-| 2 | Korean, Hindi, Turkish, Dutch, Polish, Ukrainian, Indonesian, Vietnamese |
+| 2 (0.1) | Dutch, Hindi, Indonesian, Korean, Polish, Turkish, Ukrainian, Vietnamese |
 | 3 | the rest of whatlang's 70 |
 | 4 | new languages trained from our own corpora |
 
 Script detection covers 25 writing systems already. A text in a script with
-no supported language yet (Greek, Korean...) has a script but no language.
+no supported language yet (Greek, Thai...) has a script but no language.
 Text in an unsupported language written in a supported script gets the
 closest supported language, usually with a low confidence.
 

@@ -134,6 +134,14 @@ fn detect_many(
     Ok(results)
 }
 
+/// `[[language code, ...], [script name, ...]]` compiled into this build, so
+/// Ruby can refuse an extension built from other data files.
+fn tables() -> (Vec<&'static str>, Vec<&'static str>) {
+    let codes = Lang::all().iter().map(|lang| lang.code()).collect();
+    let names = Script::all().iter().map(|script| script.name()).collect();
+    (codes, names)
+}
+
 fn detect_script(text: String) -> Option<usize> {
     psychowl::detect_script(&text).map(Script::index)
 }
@@ -149,6 +157,7 @@ fn init(ruby: &Ruby) -> Result<(), Error> {
     module.define_module_function("candidates", function!(candidates, 3))?;
     module.define_module_function("detect_many", function!(detect_many, 3))?;
     module.define_module_function("detect_script", function!(detect_script, 1))?;
+    module.define_module_function("tables", function!(tables, 0))?;
     module.define_module_function("segments", function!(segments, 3))?;
     module.define_module_function("sentences", function!(sentences, 1))?;
     module.define_module_function("script_counts", function!(script_counts, 1))?;

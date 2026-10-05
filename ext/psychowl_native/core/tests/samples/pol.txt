@@ -1,0 +1,5 @@
+# pol: one sample per line. The first line is from whatlang tests/examples.json (MIT).
+W języku polskim opozycja spółgłosek miękkich i twardych stała się cechą istotną.
+Chciałbym zarezerwować stolik dla dwóch osób na jutrzejszy wieczór.
+Rząd ogłosił nowe środki wsparcia dla małych i średnich przedsiębiorstw.
+Podczas wakacji pojechaliśmy nad morze i każdego dnia świeciło słońce.

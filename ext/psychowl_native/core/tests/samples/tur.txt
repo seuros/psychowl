@@ -1,0 +1,5 @@
+# tur: one sample per line. The first line is from whatlang tests/examples.json (MIT).
+1890’lar Debussy’nin kariyerindeki en verimli dönemdir. Bu dönemin en önemli eseri Pellas et Melisande operasıdır. Bu eserin 1902’de seslendirilişi uluslar arası bir başarı oldu. Pell as’dan sonra ünlenen Debussy, Avrupa başkentlerini gezerek eserlerini piyanist veya orkestra şefi olarak seslendirdi. Bu dönemde yazdığı makalelerle esprili bir eleştirmen olarak da tanındı.
+Yarın akşam iki kişilik bir masa ayırtmak istiyorum, lütfen.
+Hükümet küçük işletmeleri desteklemek için yeni önlemler açıkladı.
+Tatilde denize gittik ve her gün güneşli bir hava vardı.

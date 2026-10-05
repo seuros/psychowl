@@ -1,0 +1,5 @@
+# vie: one sample per line. The first line is from whatlang tests/examples.json (MIT).
+Với những cơ sở khoa học gần đây được đa số các nhà ngôn ngữ học thừa nhận, tiếng Việt thuộc hệ Nam Á ở khu vực Đông Nam Á hiện nay, có quan hệ gần gũi với tiếng Mường. Xa hơn là các thứ tiếng thuộc nhóm ngôn ngữ Môn-Khmer.
+Tôi muốn đặt bàn cho hai người vào tối mai, cảm ơn.
+Chính phủ đã công bố các biện pháp mới để hỗ trợ doanh nghiệp nhỏ và vừa.
+Chúng tôi đã đi biển vào kỳ nghỉ và trời nắng đẹp mỗi ngày.

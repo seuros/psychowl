@@ -30,6 +30,12 @@ class ParityTest < Minitest::Test
     skip 'native extension not loaded' unless Psychowl.backend == :native
   end
 
+  def test_tables_match
+    expected = [Psychowl::Tables::LANGUAGES.map(&:first), Psychowl::Tables::SCRIPTS.map(&:name)]
+
+    assert_equal expected, PsychowlNative.tables
+  end
+
   def test_detect_matches
     each_input do |text|
       FILTERS.each do |mode, langs|

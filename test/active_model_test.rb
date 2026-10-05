@@ -49,7 +49,7 @@ class ActiveModelTest < Minitest::Test
     klass = model(in: :en, reliable: true)
 
     assert_empty errors_for(klass, ENGLISH)
-    errors = errors_for(klass, 'Good morning').details[:body].map { it[:error] }
+    errors = errors_for(klass, 'Thank you very much').details[:body].map { it[:error] }
 
     assert_equal [:language_uncertain], errors
   end
