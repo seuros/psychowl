@@ -3,7 +3,7 @@
 It knows what language you speak.
 
 Language and script detection for Ruby and Rust. psychowl follows the
-[Matryoshka](https://github.com/seuros/matryoshka_gem) FFI Hybrid pattern:
+[Matryoshka](https://github.com/seuros/matryoshka) FFI Hybrid pattern:
 
 - a **pure Ruby engine** that runs everywhere (CRuby, JRuby, TruffleRuby),
 - the same algorithm in **Rust** (the `psychowl` crate), loaded as a native
