@@ -2,7 +2,7 @@
 
 # A non-empty DISABLE_PSYCHOWL_NATIVE or DISABLE_MATRYOSHKA_NATIVE forces pure
 # Ruby; an empty one (as CI matrices set) does not.
-return if %w[DISABLE_PSYCHOWL_NATIVE DISABLE_MATRYOSHKA_NATIVE].any? { |name| !ENV.fetch(name, '').empty? }
+return if %w[DISABLE_PSYCHOWL_NATIVE DISABLE_MATRYOSHKA_NATIVE].any? { !ENV.fetch(it, '').empty? }
 
 begin
   begin

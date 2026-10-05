@@ -14,8 +14,7 @@ Gem::Specification.new do |spec|
                      'detection, an ActiveModel validator and a CLI.'
   spec.homepage = 'https://github.com/seuros/psychowl'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 3.3.0'
-  spec.required_rubygems_version = '>= 3.3.22'
+  spec.required_ruby_version = '>= 4.0'
 
   spec.metadata['source_code_uri'] = spec.homepage
   spec.metadata['bug_tracker_uri'] = "#{spec.homepage}/issues"
@@ -42,5 +41,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.extensions = ['ext/psychowl_native/extconf.rb']
 
-  spec.add_dependency 'rb_sys', '~> 0.9.124'
+  spec.add_dependency 'rb_sys', '~> 0.9.130'
 end

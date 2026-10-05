@@ -52,7 +52,7 @@ module ActiveModel
         !minimum.nil? && info.confidence < minimum
       end
 
-      def resolve(list) = list && Array(list).map { |code| Psychowl::Lang.fetch(code) }
+      def resolve(list) = list && Array(list).map { Psychowl::Lang.fetch(it) }
 
       def add_error(record, attribute, type, lang)
         details = { language: lang&.eng_name }

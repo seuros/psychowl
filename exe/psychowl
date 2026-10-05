@@ -25,7 +25,7 @@ parser = OptionParser.new do |opts|
   opts.on('-a', '--allow LANGS', Array, 'Only consider these languages, e.g. en,fr') do |langs|
     options[:allowlist] = langs
   end
-  opts.on('-d', '--deny LANGS', Array, 'Never consider these languages') { |langs| options[:denylist] = langs }
+  opts.on('-d', '--deny LANGS', Array, 'Never consider these languages') { options[:denylist] = it }
   opts.on('--languages', 'List supported languages') { options[:mode] = :languages }
   opts.on('-v', '--version', 'Show version and engine') do
     puts "psychowl #{Psychowl::VERSION} (#{Psychowl.backend} engine)"
@@ -78,7 +78,7 @@ begin
   when :lines
     lines = input.lines(chomp: true)
     infos = detector.detect_many(lines)
-    emit(options, infos.map { |info| info_hash(info) }, infos.map { |info| info_line(info) }.join("\n"))
+    emit(options, infos.map { info_hash(it) }, infos.map { info_line(it) }.join("\n"))
   when :candidates
     ranked = detector.candidates(input, limit: options[:limit])
     detected = !ranked.empty?

@@ -39,10 +39,13 @@ if BSD
     .endif
     .endfor
 
+    # BSD make exports its own job flags (-J) in MAKEFLAGS; gmake rejects them.
+    GMAKE = env -u MAKEFLAGS -u MFLAGS gmake -f Makefile
+
     all:
-    \tgmake -f Makefile ${GMAKE_VARS}
+    \t${GMAKE} ${GMAKE_VARS}
 
     .DEFAULT:
-    \tgmake -f Makefile ${GMAKE_VARS} $@
+    \t${GMAKE} ${GMAKE_VARS} $@
   MAKE
 end

@@ -19,7 +19,7 @@ module Psychowl
     singleton_class.prepend(Lookup) # ahead of Data.define's own `[]` constructor
 
     ALL = Tables::SCRIPTS.map do |script|
-      new(name: script.name, langs: script.languages.map { |index| Lang.at(index) }.freeze)
+      new(name: script.name, langs: script.languages.map { Lang.at(it) }.freeze)
     end.freeze
     BY_NAME = ALL.to_h { |script| [script.name.downcase, script] }.freeze
     private_constant :ALL, :BY_NAME

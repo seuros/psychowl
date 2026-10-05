@@ -61,16 +61,9 @@ namespace :psychowl do
   end
 end
 
-begin
-  require 'rubocop/rake_task'
-  RuboCop::RakeTask.new
-rescue LoadError
-  desc 'RuboCop unavailable (development dependency)'
-  task :rubocop
-end
-
-desc 'RuboCop, cargo fmt --check and clippy'
-task lint: :rubocop do
+desc 'dictator, cargo fmt --check and clippy'
+task :lint do
+  sh 'dictator', 'lint', '.'
   sh 'cargo', 'fmt', '--manifest-path', CARGO_MANIFEST, '--all', '--check'
   sh 'cargo', 'clippy', '--manifest-path', CARGO_MANIFEST, '--workspace', '--all-targets', '--', '-D', 'warnings'
 end

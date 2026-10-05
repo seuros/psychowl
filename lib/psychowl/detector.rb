@@ -67,7 +67,7 @@ module Psychowl
     # @param texts [Array<String>]
     # @return [Array<Info, nil>] one result per text, in order
     def detect_many(texts)
-      prepared = texts.map { |text| Text.prepare(text) }
+      prepared = texts.map { Text.prepare(it) }
       Engine.detect_many(prepared, @filter_mode, @filter_langs).map { |result| result && Info.from_engine(result) }
     end
 
@@ -116,8 +116,8 @@ module Psychowl
       end
     end
 
-    def indices(langs) = langs.map { |lang| Lang.index(lang) }.freeze
+    def indices(langs) = langs.map { Lang.index(it) }.freeze
 
-    def resolve(list) = Array(list).map { |code| Lang.fetch(code) }.uniq.freeze
+    def resolve(list) = Array(list).map { Lang.fetch(it) }.uniq.freeze
   end
 end

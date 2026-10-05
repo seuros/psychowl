@@ -70,7 +70,7 @@ profiles = {}
 read('trigrams/profiles.rs').scan(/\(\s*Lang::(\w+),\s*&\[(.*?)\],\s*\)/m) do |variant, body|
   char = /'((?:\\u\{\h+\}|\\.|[^'\\]))'/
   trigrams = body.scan(/Trigram\(#{char}, #{char}, #{char}\)/).map do |chars|
-    chars.map { |literal| rust_char(literal) }.join
+    chars.map { rust_char(it) }.join
   end
   profiles[codes.fetch(variant.downcase)] = trigrams
 end
@@ -127,17 +127,17 @@ script_langs = SCRIPTS.to_h do |script|
             mapping_source[/Script::\w+ \| Script::#{script.capitalize} => &\[(.*?)\]/, 1]
       arm.scan(/Lang::(\w+)/).flatten
     end
-  [script, langs.map { |variant| codes.fetch(variant.downcase) }]
+  [script, langs.map { codes.fetch(it.downcase) }]
 end
 
 def read_tsv(path)
   return [] unless File.exist?(path)
 
-  DataTools.data_lines(path).map { |line| line.split("\t") }
+  DataTools.data_lines(path).map { it.split("\t") }
 end
 
 def write_tsv(path, header, rows)
-  body = rows.map { |row| row.join("\t") }.join("\n")
+  body = rows.map { it.join("\t") }.join("\n")
   File.write(path, "#{header}#{body}\n")
 end
 
@@ -149,7 +149,7 @@ CODES.each do |code|
   variant = variant_for.fetch(code)
   languages[code] = [code, ISO639_1.fetch(code), eng_names.fetch(variant), names.fetch(variant)]
 end
-write_tsv(languages_path, <<~TSV, languages.keys.sort.map { |code| languages[code] })
+write_tsv(languages_path, <<~TSV, languages.keys.sort.map { languages[it] })
   # Supported languages, sorted by code. Line order defines language indices.
   # code (ISO 639-3)\tISO 639-1\tEnglish name\tnative name
 TSV
@@ -187,5 +187,5 @@ CODES.each do |code|
 end
 
 puts "languages: #{languages.keys.sort.join(' ')}"
-puts "profiles:  #{CODES.select { |code| profiles.key?(code) }.join(' ')}"
-puts "alphabets: #{CODES.select { |code| alphabets.key?(code) }.join(' ')}"
+puts "profiles:  #{CODES.select { profiles.key?(it) }.join(' ')}"
+puts "alphabets: #{CODES.select { alphabets.key?(it) }.join(' ')}"

@@ -24,7 +24,7 @@ class CliTest < Minitest::Test
     out, _err, status = run_cli('--lines', '--json', input: "Das ist ein sehr guter Satz auf Deutsch.\n12345\n")
 
     assert_predicate status, :success?
-    assert_equal(['deu', nil], JSON.parse(out).map { |row| row&.fetch('lang') })
+    assert_equal(['deu', nil], JSON.parse(out).map { it&.fetch('lang') })
   end
 
   def test_exit_status_when_nothing_is_detected

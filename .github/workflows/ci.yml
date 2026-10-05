@@ -10,33 +10,43 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  rust:
-    name: Rust crate
+  lint:
+    name: Lint (dictator, rustfmt, clippy)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1 # the FFI crate needs Ruby headers to build
+      - uses: ruby/setup-ruby@v1 # clippy builds the FFI crate, which needs Ruby headers
         with:
           ruby-version: "4.0"
       - uses: dtolnay/rust-toolchain@1.99
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
+      - uses: seuros/dictator-setup@v1
+      - run: dictator lint .
       - run: cargo fmt --all --check
-      - run: bundle install && bundle exec rubocop
       - run: cargo clippy --workspace --all-targets -- -D warnings
+
+  rust:
+    name: Rust crate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+      - uses: dtolnay/rust-toolchain@1.99
+      - uses: Swatinem/rust-cache@v2
       - run: cargo test -p psychowl
       - run: cargo package -p psychowl --allow-dirty
 
   ruby:
-    name: ${{ matrix.ruby }} (${{ matrix.engine }})
+    name: ${{ matrix.ruby }} (${{ matrix.engine }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { ruby: "3.3", engine: native, os: ubuntu-latest }
-          - { ruby: "3.4", engine: native, os: ubuntu-latest }
           - { ruby: "4.0", engine: native, os: ubuntu-latest }
           - { ruby: "4.0", engine: native, os: macos-latest }
           - { ruby: "4.0", engine: ruby, os: ubuntu-latest }
@@ -62,28 +72,30 @@ jobs:
       - run: bundle exec rake test
 
   freebsd:
-    name: FreeBSD ${{ matrix.release }} (native)
+    name: FreeBSD 15.1 (native)
     runs-on: ubuntu-latest
     timeout-minutes: 40
-    strategy:
-      fail-fast: false
-      matrix:
-        release: ["15.1"]
     steps:
       - uses: actions/checkout@v7
       - uses: vmactions/freebsd-vm@v1
         with:
-          release: ${{ matrix.release }}
+          release: "15.1"
           usesh: true
           copyback: false
-          # llvm: libclang for bindgen. rustup: the crate's rust-version, not quarterly.
+          # ruby40 ships RubyGems but not the gem command (FreeBSD packages it
+          # only for its default Ruby). llvm: libclang for bindgen. rustup: the
+          # crate's rust-version.
           prepare: |
-            pkg install -y ruby devel/ruby-gems git curl llvm gmake
+            pkg install -y ruby40 git curl llvm gmake
+            printf '%s\n' '#!/bin/sh' 'exec ruby40 -e "require %q(rubygems/gem_runner); Gem::GemRunner.new.run(ARGV)" -- "$@"' > /usr/local/bin/gem
+            chmod +x /usr/local/bin/gem
+            ln -sf ruby40 /usr/local/bin/ruby
             curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.99
           run: |
             . "$HOME/.cargo/env"
             LIBCLANG_PATH="$(ls -d /usr/local/llvm*/lib | sort -V | tail -1)"
             export LIBCLANG_PATH
+            ruby -v
             gem install bundler --no-document
             bundle install
             bundle exec rake compile

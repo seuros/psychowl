@@ -5,7 +5,7 @@ It knows what language you speak. It knows you skipped your lesson.
 Language and script detection for Ruby and Rust. psychowl follows the
 [Matryoshka](https://github.com/seuros/matryoshka) FFI Hybrid pattern:
 
-- a **pure Ruby engine** that runs everywhere (CRuby, JRuby, TruffleRuby),
+- a **pure Ruby engine** that runs everywhere (CRuby, JRuby 10.1+, TruffleRuby 40+),
 - the same algorithm in **Rust** (the `psychowl` crate), loaded as a native
   extension when available, 20 to 500 times faster,
 - one set of **plain-text language tables** both engines read, and a parity
@@ -41,6 +41,8 @@ Heads of state make the best test data: they talk a lot and say nothing.
 | jpn | 首相は「前向きに検討します」と言いました。 | The prime minister said he will "consider it positively". |
 
 ## Installation
+
+Requires Ruby 4.0 or newer.
 
 ```ruby
 gem "psychowl"

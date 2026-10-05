@@ -9,7 +9,7 @@ class FeaturesTest < Minitest::Test
   def test_segments_split_mixed_text
     segments = Psychowl.segments(MIXED)
 
-    assert_equal(%w[eng fra deu], segments.map { |segment| segment.lang.code })
+    assert_equal(%w[eng fra deu], segments.map { it.lang.code })
     assert_equal 'Ceci est une phrase en français sur les chats. 12345. ', segments[1].text
     assert_equal MIXED, segments.map(&:text).join
     segments.each { |segment| assert_equal segment.text, MIXED[segment.range] }
@@ -25,15 +25,15 @@ class FeaturesTest < Minitest::Test
            'This sentence is written in plain English.'
     segments = Psychowl.segments(text)
 
-    assert_equal(%w[jpn eng], segments.map { |segment| segment.lang.code })
+    assert_equal(%w[jpn eng], segments.map { it.lang.code })
     assert_equal 0...26, segments.first.range
   end
 
   def test_detect_many_keeps_order_and_nils
     texts = ['Das ist ein sehr guter Satz auf Deutsch.', '1234', 'Летом мы ездили на море']
 
-    assert_equal(['deu', nil, 'rus'], Psychowl.detect_many(texts).map { |info| info&.lang&.code })
-    assert_equal(['ita', nil, nil], Psychowl.detect_many(texts, allowlist: [:ita]).map { |info| info&.lang&.code })
+    assert_equal(['deu', nil, 'rus'], Psychowl.detect_many(texts).map { it&.lang&.code })
+    assert_equal(['ita', nil, nil], Psychowl.detect_many(texts, allowlist: [:ita]).map { it&.lang&.code })
   end
 
   def test_detect_many_validates_every_text

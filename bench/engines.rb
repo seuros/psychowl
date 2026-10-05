@@ -15,7 +15,7 @@ end
 abort 'compile the native extension first (rake compile)' unless Psychowl.backend == :native
 
 samples = Dir[File.join(Psychowl::Tables::DIR, '../tests/samples/*.txt')].flat_map do |path|
-  File.readlines(path, chomp: true).reject { |line| line.start_with?('#') }
+  File.readlines(path, chomp: true).reject { it.start_with?('#') }
 end
 latin = samples.grep(/\A[[:ascii:]À-ž\s[:punct:]]+\z/)
 

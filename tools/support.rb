@@ -21,7 +21,7 @@ module DataTools
       # #{provenance}
     TXT
     path = File.join(DATA, 'trigrams', "#{code}.txt")
-    body = trigrams.map { |trigram| trigram.tr(' ', '_') }.join("\n")
+    body = trigrams.map { it.tr(' ', '_') }.join("\n")
     File.write(path, "#{header}#{body}\n")
     path
   end

@@ -5,7 +5,7 @@ require_relative 'test_helper'
 # The Rust engine must give exactly the same answers as the Ruby engine,
 # confidence floats included.
 class ParityTest < Minitest::Test
-  def self.indices(*codes) = codes.map { |code| Psychowl::Lang.index(Psychowl::Lang.fetch(code)) }
+  def self.indices(*codes) = codes.map { Psychowl::Lang.index(Psychowl::Lang.fetch(it)) }
 
   FILTERS = [
     [Psychowl::Engine::FILTER_ALL, []],
@@ -84,7 +84,7 @@ class ParityTest < Minitest::Test
 
   def each_input(&)
     samples = Samples.all.values.flatten
-    prefixes = samples.flat_map { |sample| [5, 12, 30, 80].map { |length| sample[0, length] } }
+    prefixes = samples.flat_map { |sample| [5, 12, 30, 80].map { sample[0, it] } }
     (samples + prefixes + EXTRA).uniq.each(&)
   end
 end

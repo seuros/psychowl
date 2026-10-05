@@ -2,7 +2,7 @@
 
 ## 0.1.0 (unreleased)
 
-First release, wave 1: Arabic, English, French, German, Italian, Japanese,
+First release, for Ruby 4.0+ (CRuby, JRuby 10.1+, TruffleRuby 40+). Wave 1: Arabic, English, French, German, Italian, Japanese,
 Mandarin, Portuguese, Russian, Spanish; 25 scripts.
 
 - Pure Ruby engine plus the `psychowl` Rust crate, loaded as an optional

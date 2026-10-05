@@ -33,12 +33,12 @@ module Psychowl
 
       # @return [Array<Integer>] number of characters per script, by script index
       def script_counts(text)
-        Tables::SCRIPTS.map { |script| text.count(script.charset) }
+        Tables::SCRIPTS.map { text.count(it.charset) }
       end
 
       # @return [Array<Array(Integer, Integer, Float), nil>] one #detect result per text
       def detect_many(texts, filter_mode, filter_langs)
-        texts.map { |text| detect(text, filter_mode, filter_langs) }
+        texts.map { detect(it, filter_mode, filter_langs) }
       end
 
       private
@@ -75,8 +75,8 @@ module Psychowl
 
       def allowed(languages, filter_mode, filter_langs)
         case filter_mode
-        when Engine::FILTER_ALLOW then languages.select { |language| filter_langs.include?(language) }
-        when Engine::FILTER_DENY then languages.reject { |language| filter_langs.include?(language) }
+        when Engine::FILTER_ALLOW then languages.select { filter_langs.include?(it) }
+        when Engine::FILTER_DENY then languages.reject { filter_langs.include?(it) }
         else languages
         end
       end
@@ -137,8 +137,8 @@ module Psychowl
       def alphabet_scores(lowercase, languages)
         char_count = lowercase.length - lowercase.count(Tables::STOP_CHARS)
 
-        unless languages.any? { |language| Tables::ALPHABETS.key?(language) }
-          return [languages.to_h { |language| [language, 1.0] }, 1]
+        unless languages.any? { Tables::ALPHABETS.key?(it) }
+          return [languages.to_h { [it, 1.0] }, 1]
         end
 
         scores = languages.to_h do |language|
