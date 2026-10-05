@@ -29,8 +29,10 @@ gem "psychowl"
 ```
 
 Precompiled native gems are built for Linux (glibc and musl, x86_64 and
-aarch64), macOS and Windows. Elsewhere the extension compiles from source if
-Cargo is installed, otherwise psychowl quietly uses its Ruby engine.
+aarch64) and macOS (arm64, x86_64). On FreeBSD (tested in CI on 14 and 15)
+and everywhere else the extension compiles from source if Cargo is
+installed; otherwise psychowl quietly uses its Ruby engine. Windows gets the
+Ruby engine only.
 
 ```ruby
 Psychowl.backend # => :native or :ruby

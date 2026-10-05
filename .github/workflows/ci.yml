@@ -60,3 +60,33 @@ jobs:
         name: Native extension is loaded
         run: bundle exec ruby -Ilib -rpsychowl -e 'abort "native extension not loaded" unless Psychowl.backend == :native'
       - run: bundle exec rake test
+
+  freebsd:
+    name: FreeBSD ${{ matrix.release }} (native)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        release: ["14.3", "15.1"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: vmactions/freebsd-vm@v1
+        with:
+          release: ${{ matrix.release }}
+          usesh: true
+          copyback: false
+          # llvm: libclang for rb-sys bindgen. Rust via rustup to match the
+          # crate's rust-version instead of the quarterly package.
+          prepare: |
+            pkg install -y ruby devel/ruby-gems git curl llvm
+            curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.99
+          run: |
+            . "$HOME/.cargo/env"
+            LIBCLANG_PATH="$(ls -d /usr/local/llvm*/lib | sort -V | tail -1)"
+            export LIBCLANG_PATH
+            gem install bundler --no-document
+            bundle install
+            bundle exec rake compile
+            bundle exec ruby -Ilib -rpsychowl -e 'abort "native extension not loaded" unless Psychowl.backend == :native'
+            bundle exec rake test

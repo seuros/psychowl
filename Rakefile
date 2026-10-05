@@ -20,9 +20,10 @@ begin
     ext.ext_dir = 'ext/psychowl_native'
     ext.lib_dir = 'lib/psychowl'
     ext.cross_compile = true
+    # rb_sys cross toolchains; FreeBSD has none and builds from source.
     ext.cross_platform = %w[
-      aarch64-linux-gnu aarch64-linux-musl arm64-darwin
-      x86_64-darwin x86_64-linux-gnu x86_64-linux-musl x64-mingw-ucrt
+      aarch64-linux aarch64-linux-musl arm64-darwin
+      x86_64-darwin x86_64-linux x86_64-linux-musl
     ]
   end
 rescue LoadError
