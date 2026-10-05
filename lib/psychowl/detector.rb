@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 module Psychowl
-  # A reusable, frozen detector, optionally restricted to an allowlist or a
-  # denylist of languages. Build one up front when filtering many texts with
-  # the same list.
+  # A reusable, frozen detector, optionally limited by an allowlist or denylist.
   #
   #   detector = Psychowl::Detector.new(allowlist: %i[en fr de])
-  #   detector.detect_lang("Das ist gut") # => #<Psychowl::Lang deu (German)>
+  #   detector.detect_lang("Traversez la rue, je vous trouverai un travail.")
+  #   # => #<Psychowl::Lang fra (French)>
   class Detector
     # @return [Array<Lang>, nil]
     attr_reader :allowlist
@@ -63,8 +62,7 @@ module Psychowl
       ranked.map { |lang, score| [Lang.at(lang), score] }
     end
 
-    # Detects many texts at once. With the native extension the work is
-    # spread over all CPU cores.
+    # On all CPU cores with the native engine.
     #
     # @param texts [Array<String>]
     # @return [Array<Info, nil>] one result per text, in order
@@ -73,8 +71,7 @@ module Psychowl
       Engine.detect_many(prepared, @filter_mode, @filter_langs).map { |result| result && Info.from_engine(result) }
     end
 
-    # Splits mixed-language text into sentences and groups consecutive
-    # sentences of the same language.
+    # Runs of same-language sentences, for mixed-language text.
     #
     # @param (see #detect)
     # @return [Array<Segment>]

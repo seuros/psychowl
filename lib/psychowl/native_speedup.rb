@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
-# Optional Rust speedup. When the native extension is available, its
-# functions replace the pure Ruby engine one-for-one; otherwise the Ruby
-# engine stays. Set DISABLE_PSYCHOWL_NATIVE (or DISABLE_MATRYOSHKA_NATIVE for
-# every Matryoshka gem) to a non-empty value to force pure Ruby; an empty
-# value, as CI matrices often produce, leaves the extension on.
+# A non-empty DISABLE_PSYCHOWL_NATIVE or DISABLE_MATRYOSHKA_NATIVE forces pure
+# Ruby; an empty one (as CI matrices set) does not.
 return if %w[DISABLE_PSYCHOWL_NATIVE DISABLE_MATRYOSHKA_NATIVE].any? { |name| !ENV.fetch(name, '').empty? }
 
 begin

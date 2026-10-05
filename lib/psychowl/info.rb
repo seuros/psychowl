@@ -3,8 +3,9 @@
 module Psychowl
   # Outcome of a detection. Supports pattern matching:
   #
-  #   case Psychowl.detect(text)
-  #   in {lang: {code: "eng"}, reliable: true} then ...
+  #   case Psychowl.detect(speech)
+  #   in {lang: {code: "eng"}, reliable: true} then :tremendous
+  #   in {reliable: false} then :fake_news
   #   end
   #
   # @!attribute [r] lang

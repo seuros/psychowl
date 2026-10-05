@@ -1,23 +1,18 @@
 # frozen_string_literal: true
 
 module Psychowl
-  # The language tables shared with the Rust crate. The Rust crate compiles
-  # them in; the Ruby engine reads them here, once, at load time.
-  #
-  # Languages and scripts are referred to by index (their line number in
-  # languages.tsv / scripts.tsv), which both engines agree on.
+  # The data tables shared with the Rust crate, read once at load time.
+  # Languages and scripts are referred to by line index, as in the crate.
   module Tables
     DIR = File.expand_path('../../ext/psychowl_native/core/data', __dir__)
 
-    # Characters that carry no language information: ASCII controls, spaces,
-    # digits and punctuation. A tr-style set for String#count / String#tr.
+    # ASCII controls, spaces, digits and punctuation, as a String#count set.
     STOP_CHARS = "\u0000-@[-`{-~"
 
     class << self
       def rows(file) = DataFile.lines(File.join(DIR, file)).map { |line| line.split("\t") }
 
-      # Turns literal characters into a String#count set, escaping the
-      # characters that have a meaning there.
+      # Escapes the characters String#count treats specially.
       def charset(chars) = chars.gsub(/[\\^-]/) { |char| "\\#{char}" }
 
       def range_charset(ranges)

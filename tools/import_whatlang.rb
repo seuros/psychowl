@@ -1,15 +1,13 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# One-off porting tool: converts the language tables of whatlang 0.18
-# (MIT, https://github.com/greyblake/whatlang-rs) into psychowl's data files.
-# Not a runtime or build dependency; rerun it to port another wave.
+# Ports language tables from whatlang 0.18 (MIT, github.com/greyblake/whatlang-rs)
+# into psychowl's data files. A dev tool, not a dependency.
 #
 #   WHATLANG_SRC=~/.cargo/registry/src/*/whatlang-0.18.0/src \
 #     ruby tools/import_whatlang.rb ara cmn deu eng fra ita jpn por rus spa
 #
-# Every language passed is merged into the existing data files, so waves
-# accumulate.
+# Languages are merged into the existing files, so waves accumulate.
 
 require 'fileutils'
 require_relative 'support'
@@ -68,7 +66,6 @@ variant_for = codes.invert
 unknown = CODES - codes.values
 abort "unknown whatlang codes: #{unknown.join(', ')}" unless unknown.empty?
 
-# --- trigram profiles -------------------------------------------------------
 profiles = {}
 read('trigrams/profiles.rs').scan(/\(\s*Lang::(\w+),\s*&\[(.*?)\],\s*\)/m) do |variant, body|
   char = /'((?:\\u\{\h+\}|\\.|[^'\\]))'/
@@ -78,7 +75,6 @@ read('trigrams/profiles.rs').scan(/\(\s*Lang::(\w+),\s*&\[(.*?)\],\s*\)/m) do |v
   profiles[codes.fetch(variant.downcase)] = trigrams
 end
 
-# --- alphabets --------------------------------------------------------------
 alphabets = {}
 %w[alphabets/latin.rs alphabets/cyrillic.rs].each do |path|
   read(path).scan(/const ([A-Z]{3}): &str =\s*"([^"]*)";/) do |variant, letters|
@@ -86,7 +82,6 @@ alphabets = {}
   end
 end
 
-# --- scripts ----------------------------------------------------------------
 chars_source = read('scripts/chars.rs')
 ranges = SCRIPTS.to_h do |script|
   body = chars_source[/fn is_#{script}\(ch: char\) -> bool \{(.*?)\n\}/m, 1] or abort "is_#{script} not found"
@@ -135,7 +130,6 @@ script_langs = SCRIPTS.to_h do |script|
   [script, langs.map { |variant| codes.fetch(variant.downcase) }]
 end
 
-# --- merge with existing data -------------------------------------------------
 def read_tsv(path)
   return [] unless File.exist?(path)
 

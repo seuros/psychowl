@@ -10,7 +10,6 @@ AllCops:
     - 'vendor/**/*'
     - 'tmp/**/*'
     - 'target/**/*'
-    - 'sig/**/*'
 
 Layout/LineLength:
   Max: 120

@@ -70,9 +70,10 @@ impl Info {
 /// ```
 /// use psychowl::{Detector, Lang};
 ///
+/// // Portuguese is not on the list, so the closest allowed language wins.
 /// let detector = Detector::with_allowlist(vec![Lang::Eng, Lang::Spa]);
-/// let text = "Eu gostaria de reservar uma mesa para duas pessoas.";
-/// assert_eq!(detector.detect_lang(text), Some(Lang::Spa));
+/// let promise = "O presidente prometeu que desta vez a obra termina no prazo.";
+/// assert_eq!(detector.detect_lang(promise), Some(Lang::Spa));
 /// ```
 #[derive(Debug, Clone, Default)]
 pub struct Detector {

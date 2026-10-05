@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Psychowl
-  # Reads psychowl's plain-text data and sample files. No load-time side
-  # effects, so the data tools can use it before the tables exist.
+  # Reads the plain-text data files. No load-time side effects, so the data
+  # tools can use it before the tables exist.
   module DataFile
     # Lines of a file, without blank lines and # comments.
     def self.lines(path)

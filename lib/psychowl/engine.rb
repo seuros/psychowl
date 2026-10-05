@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 module Psychowl
-  # The engine behind the public API. It delegates to RubyEngine; when the
-  # Rust extension loads, native_speedup.rb prepends versions that call it
-  # instead. Both sides take and return the same primitives.
+  # Delegates to RubyEngine until native_speedup.rb prepends the Rust
+  # extension. Same primitives either way.
   module Engine
     FILTER_ALL = 0
     FILTER_ALLOW = 1

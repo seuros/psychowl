@@ -68,7 +68,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: ["14.3", "15.1"]
+        release: ["15.1"]
     steps:
       - uses: actions/checkout@v7
       - uses: vmactions/freebsd-vm@v1
@@ -76,10 +76,9 @@ jobs:
           release: ${{ matrix.release }}
           usesh: true
           copyback: false
-          # llvm: libclang for rb-sys bindgen. Rust via rustup to match the
-          # crate's rust-version instead of the quarterly package.
+          # llvm: libclang for bindgen. rustup: the crate's rust-version, not quarterly.
           prepare: |
-            pkg install -y ruby devel/ruby-gems git curl llvm
+            pkg install -y ruby devel/ruby-gems git curl llvm gmake
             curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.99
           run: |
             . "$HOME/.cargo/env"
@@ -90,3 +89,7 @@ jobs:
             bundle exec rake compile
             bundle exec ruby -Ilib -rpsychowl -e 'abort "native extension not loaded" unless Psychowl.backend == :native'
             bundle exec rake test
+            # gem install runs BSD make; the BSDmakefile must hand off to gmake.
+            gem build psychowl.gemspec
+            gem install --local --no-document psychowl-*.gem
+            cd /tmp && ruby -rpsychowl -e 'abort "installed gem did not build the extension" unless Psychowl.backend == :native'

@@ -17,7 +17,6 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 3.3.0'
   spec.required_rubygems_version = '>= 3.3.22'
 
-  spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage
   spec.metadata['bug_tracker_uri'] = "#{spec.homepage}/issues"
   spec.metadata['changelog_uri'] = "#{spec.homepage}/blob/master/CHANGELOG.md"
@@ -28,7 +27,6 @@ Gem::Specification.new do |spec|
   spec.files = Dir[
     'lib/**/*.{rb,yml}',
     'exe/*',
-    'sig/**/*.rbs',
     'Cargo.toml',
     'Cargo.lock',
     'ext/psychowl_native/extconf.rb',

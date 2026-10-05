@@ -16,9 +16,10 @@ require_relative 'psychowl/segment'
 require_relative 'psychowl/detector'
 
 # Natural language and script detection. It knows what language you speak.
+# It knows you skipped your lesson.
 #
-#   info = Psychowl.detect("¿Dónde está la biblioteca?")
-#   info.lang.code   # => "spa"
+#   info = Psychowl.detect("Die Deutsche Bahn ist heute pünktlich. Wir ermitteln.")
+#   info.lang.code   # => "deu"
 #   info.script.name # => "Latin"
 module Psychowl
   DEFAULT_DETECTOR = Detector.new

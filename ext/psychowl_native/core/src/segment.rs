@@ -1,5 +1,4 @@
-//! Per-sentence detection for mixed-language text. Mirrors
-//! `Engine.sentences` / `Engine.segments` in `lib/psychowl/engine.rb`.
+//! Per-sentence detection, mirrored by `lib/psychowl/ruby_engine/segmentation.rb`.
 
 use std::ops::Range;
 
@@ -44,9 +43,8 @@ const fn is_space(ch: char) -> bool {
     ch <= ' ' || ch == '\u{00A0}' || ch == '\u{3000}'
 }
 
-/// Sentence byte ranges. A sentence ends after a newline, after 。！？, or
-/// after a run of . ! ? … followed by a space; trailing spaces stay with the
-/// sentence.
+/// Sentence byte ranges. A sentence ends after a newline, 。！？, or . ! ? …
+/// followed by a space; trailing spaces stay with it.
 #[must_use]
 pub fn sentences(text: &str) -> Vec<Range<usize>> {
     let chars: Vec<(usize, char)> = text.char_indices().collect();
@@ -87,11 +85,9 @@ pub fn sentences(text: &str) -> Vec<Range<usize>> {
     sentences
 }
 
-/// Detects each sentence and merges runs in the same language. Sentences
-/// without a detectable language join the segment before them (or the first
-/// one when they lead the text). Merged segments are detected again as a
-/// whole; if that lands on another language, the segment keeps the result
-/// of its first sentence.
+/// Runs of same-language sentences. Sentences without a language join the
+/// previous run (or the first). Each run is re-detected whole and keeps its
+/// first sentence's result if that changes the language.
 pub fn segments(text: &str, filter: &Filter) -> Vec<Segment> {
     // (range, first sentence's detection)
     let mut runs: Vec<(Range<usize>, Info)> = Vec::new();

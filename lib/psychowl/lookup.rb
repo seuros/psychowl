@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 module Psychowl
-  # Class-level lookup shared by Lang and Script: canonical frozen instances
-  # found by a case-insensitive key. Prepended to the singleton class (Data
-  # classes define their own `[]`); the class defines `all`,
-  # a private `by_key` table and a private `unknown_key_message`.
+  # Case-insensitive lookup for Lang and Script. Prepended, because Data
+  # defines its own `[]`; expects `all`, `by_key` and `unknown_key_message`.
   module Lookup
     # @param key [self, String, Symbol]
     # @return [self, nil]

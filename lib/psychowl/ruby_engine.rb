@@ -1,17 +1,10 @@
 # frozen_string_literal: true
 
 module Psychowl
-  # The pure Ruby detection engine; the Rust crate implements the same
-  # algorithm step by step, and test/parity_test.rb holds them to identical
-  # results.
-  #
-  # Every method takes and returns primitives (Strings, Integers, Floats,
-  # Arrays). Languages and scripts are indices into Tables. Internal calls
-  # stay inside this module, never going through Engine.
-  #
-  # Text must already be valid UTF-8; see Psychowl::Text.
-  #
-  # A filter is a mode (Engine::FILTER_*) plus a list of language indices.
+  # Pure Ruby engine, mirrored by the psychowl crate; parity_test.rb keeps them
+  # identical. Primitives in and out: languages and scripts are Tables indices,
+  # text is valid UTF-8, a filter is an Engine::FILTER_* mode plus indices.
+  # Internal calls never go through Engine.
   module RubyEngine
     class << self
       # @return [Array(Integer, Integer, Float), nil] [language, script, confidence]
@@ -50,8 +43,7 @@ module Psychowl
 
       private
 
-      # Where the text stands once its script is known (mirrors the Rust
-      # `Outcome`):
+      # Mirrors the Rust `Outcome`:
       #   [:nothing]                                 no letters / no allowed language
       #   [:decided, [language, script, confidence]] one allowed language, or Han
       #   [:scored, script, scores, trigram_count]   several languages, best first
@@ -113,9 +105,6 @@ module Psychowl
         end
       end
 
-      # Blends alphabet and trigram scores. Short texts lean on the alphabet,
-      # longer ones on trigrams.
-      #
       # @return [Array(Array<Array(Integer, Float)>, Integer)] scores best first, trigram count
       def language_scores(text, languages)
         lowercase = text.downcase

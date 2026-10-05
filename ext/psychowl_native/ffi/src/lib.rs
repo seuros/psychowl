@@ -1,9 +1,7 @@
-//! Ruby bindings for the psychowl crate.
-//!
-//! Only primitives cross this boundary: Strings, integers, floats and
-//! arrays. Languages and scripts travel as indices into `Lang::all()` /
-//! `Script::all()`; the Ruby side reads the same data files, so indices
-//! agree. Each function mirrors one method of `Psychowl::Engine`.
+//! Ruby bindings for the psychowl crate. Only primitives cross: languages and
+//! scripts as indices into `Lang::all()` / `Script::all()`, which the Ruby
+//! side reads from the same files. Each function mirrors a `Psychowl::Engine`
+//! method.
 #![expect(
     clippy::needless_pass_by_value,
     reason = "magnus converts Ruby arguments into owned values; every function takes them"

@@ -1,17 +1,19 @@
 //! Natural language and script detection. It knows what language you speak.
+//! It knows you skipped your lesson.
 //!
 //! ```
 //! use psychowl::{Lang, Script};
 //!
-//! let info = psychowl::detect("¿Dónde está la biblioteca? Estoy buscando un libro.").unwrap();
+//! let speech = "El presidente dijo que la economía va muy bien. \
+//!               Los precios todavía no se han enterado.";
+//! let info = psychowl::detect(speech).unwrap();
 //! assert_eq!(info.lang(), Lang::Spa);
 //! assert_eq!(info.script(), Script::Latin);
-//! assert!(info.is_reliable());
+//! assert!(info.is_reliable()); // more than the economy
 //! ```
 //!
-//! The language data lives in plain-text files under `data/`, compiled in by
-//! `build.rs`. The `psychowl` Ruby gem runs the same algorithm on the same
-//! files, in Ruby or through this crate.
+//! The language data is plain text under `data/`, compiled in by `build.rs` and
+//! shared with the `psychowl` Ruby gem.
 
 mod detector;
 mod engine;
@@ -25,6 +27,11 @@ pub use lang::UnknownLang;
 pub use segment::{Segment, sentences};
 
 include!(concat!(env!("OUT_DIR"), "/tables.rs"));
+
+/// Compiles the README examples as doctests, so they cannot drift.
+#[cfg(doctest)]
+#[doc = include_str!("../README.md")]
+struct ReadmeDoctests;
 
 pub(crate) struct LanguageRow {
     pub(crate) lang: Lang,

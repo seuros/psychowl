@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module Psychowl
-  # Per-sentence detection for mixed-language text; mirrors segment.rs in
-  # the Rust crate.
+  # Per-sentence detection, mirrored by segment.rs.
   module RubyEngine
     # Sentence-ending marks that need a following space ("3.14" is no boundary).
     SENTENCE_MARKS = %W[. ! ? \u2026].freeze
@@ -10,12 +9,9 @@ module Psychowl
     CLOSING_MARKS = %W[\u3002 \uFF01 \uFF1F].freeze
 
     class << self
-      # Splits the text into sentences, detects each one, and merges runs of
-      # sentences in the same language. Sentences without a detectable
-      # language (numbers, emoji, unsupported scripts) join the segment
-      # before them, or the first segment when they lead the text. Each
-      # merged segment is detected again as a whole; if that lands on another
-      # language, the segment keeps the result of its first sentence.
+      # Runs of same-language sentences. Sentences without a language join the
+      # previous run (or the first). Each run is re-detected whole and keeps its
+      # first sentence's result if that changes the language.
       #
       # @return [Array<Array(Integer, Integer, Integer, Integer, Float)>]
       #   [[start, end, language, script, confidence], ...] with character
@@ -47,9 +43,8 @@ module Psychowl
         end
       end
 
-      # Sentence boundaries as [start, end] character offsets. A sentence
-      # ends after a newline, after 。！？, or after a run of . ! ? …
-      # followed by a space; trailing spaces stay with the sentence.
+      # [start, end] character offsets. A sentence ends after a newline, 。！？,
+      # or . ! ? … followed by a space; trailing spaces stay with it.
       def sentences(text)
         chars = text.chars
         sentences = []

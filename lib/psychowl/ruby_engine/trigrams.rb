@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module Psychowl
-  # The trigram model: rank a text's character trigrams and measure how far
-  # that ranking is from each language profile. Mirrors trigram.rs in the
-  # Rust crate.
+  # Trigram model, mirrored by trigram.rs.
   module RubyEngine
     # A profile trigram missing from the text costs this much distance.
     MAX_TRIGRAM_DISTANCE = 300

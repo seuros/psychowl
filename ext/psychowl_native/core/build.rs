@@ -1,8 +1,5 @@
-//! Compiles the plain-text tables in `data/` into Rust: the `Lang` and
-//! `Script` enums plus static lookup tables. The pure Ruby engine reads the
-//! very same files, which keeps both engines in agreement.
-//!
-//! Bad data is a build error: every check here panics with the file at fault.
+//! Generates the `Lang`/`Script` enums and lookup tables from `data/`, the
+//! files the Ruby engine reads too. Bad data fails the build.
 
 use std::env;
 use std::fmt::{self, Write as _};
@@ -166,7 +163,7 @@ fn variant(code: &str) -> String {
 }
 
 /// Three 21-bit chars in one integer, first char in the highest bits, so
-/// integer order equals character order. Must match `engine::pack`.
+/// integer order equals character order. Must match `trigram::pack`.
 fn pack(trigram: [char; 3]) -> u64 {
     (u64::from(trigram[0]) << 42) | (u64::from(trigram[1]) << 21) | u64::from(trigram[2])
 }
@@ -329,7 +326,7 @@ fn write_alphabets(
     Ok(())
 }
 
-/// Trigram profiles indexed like `Lang::all()`, packed (see `engine::pack`),
+/// Trigram profiles indexed like `Lang::all()`, packed (see `trigram::pack`),
 /// most frequent first.
 fn write_trigrams(
     out: &mut String,

@@ -1,6 +1,6 @@
 # psychowl
 
-It knows what language you speak.
+It knows what language you speak. It knows you skipped your lesson.
 
 Language and script detection for Ruby and Rust. psychowl follows the
 [Matryoshka](https://github.com/seuros/matryoshka) FFI Hybrid pattern:
@@ -14,13 +14,31 @@ Language and script detection for Ruby and Rust. psychowl follows the
 ```ruby
 require "psychowl"
 
-info = Psychowl.detect("¿Dónde está la biblioteca? Estoy buscando un libro.")
+info = Psychowl.detect("El presidente dijo que la economía va muy bien. Los precios todavía no se han enterado.")
 info.lang.code     # => "spa"
 info.lang.locale   # => :es
 info.script.name   # => "Latin"
-info.confidence    # => 1.0
+info.confidence    # => 1.0  (more than the economy gets)
 info.reliable?     # => true
 ```
+
+## The owl has heard things
+
+Every line below is detected correctly, at full confidence, by both engines.
+Heads of state make the best test data: they talk a lot and say nothing.
+
+| | Text | Roughly |
+|---|---|---|
+| eng | Nobody detects languages better than me, believe me. Tremendous trigrams, the best trigrams, everybody says so. | The best trigrams. Everybody says so. |
+| spa | El presidente dijo que la economía va muy bien. Los precios todavía no se han enterado. | The president said the economy is doing great. Prices haven't heard yet. |
+| fra | Traversez la rue, je vous trouverai un travail, a dit le président avant de repartir en jet privé. | "Cross the street, I'll find you a job," said the president, boarding his private jet. |
+| deu | Die Deutsche Bahn ist heute pünktlich. Wir ermitteln. | Deutsche Bahn is on time today. We are investigating. |
+| ita | Il presidente ha promesso che il ponte sarà finito entro le prossime elezioni. Quali elezioni non lo ha detto. | The bridge will be done by the next election. He didn't say which one. |
+| por | O presidente prometeu que desta vez a obra termina no prazo. A obra começou em mil novecentos e oitenta e dois. | This time the construction finishes on schedule. It started in 1982. |
+| rus | Это не война, это специальная военная операция. | It's not a war, it's a special military operation. |
+| ara | فاز الرئيس في الانتخابات بنسبة تسعة وتسعين في المئة. مرة أخرى. | The president won the election with 99%. Again. |
+| cmn | 小熊维尼今天又被禁止了。 | Winnie the Pooh was banned again today. |
+| jpn | 首相は「前向きに検討します」と言いました。 | The prime minister said he will "consider it positively". |
 
 ## Installation
 
@@ -29,8 +47,8 @@ gem "psychowl"
 ```
 
 Precompiled native gems are built for Linux (glibc and musl, x86_64 and
-aarch64) and macOS (arm64, x86_64). On FreeBSD (tested in CI on 14 and 15)
-and everywhere else the extension compiles from source if Cargo is
+aarch64) and macOS (arm64, x86_64). On FreeBSD 15.1 (tested in CI; needs
+`gmake`) and everywhere else the extension compiles from source if Cargo is
 installed; otherwise psychowl quietly uses its Ruby engine. Windows gets the
 Ruby engine only.
 
@@ -44,35 +62,44 @@ the Ruby engine.
 ## Usage
 
 ```ruby
-Psychowl.detect_lang("Das ist ein sehr guter Satz auf Deutsch.") # => #<Psychowl::Lang deu (German)>
-Psychowl.detect_script("Привет, мир")                            # => #<Psychowl::Script Cyrillic>
+Psychowl.detect_lang("Die Deutsche Bahn ist heute pünktlich. Wir ermitteln.")
+# => #<Psychowl::Lang deu (German)>
+
+Psychowl.detect_script("Это не война, это специальная военная операция.")
+# => #<Psychowl::Script Cyrillic>  (the owl calls it what it is)
+
+promise = "O presidente prometeu que desta vez a obra termina no prazo."
 
 # Restrict the candidates (ISO 639-3 or 639-1 codes, or Lang objects)
-Psychowl.detect("Eu gostaria de reservar uma mesa", allowlist: %i[en es])
-Psychowl.detect("Eu gostaria de reservar uma mesa", denylist: [:por])
+Psychowl.detect_lang(promise, allowlist: %i[en es]) # => #<Psychowl::Lang spa (Spanish)>
+Psychowl.detect_lang(promise, denylist: [:por])     # => #<Psychowl::Lang spa (Spanish)>
 
-# Reuse a configured detector (frozen, thread-safe)
+# Reuse a configured detector (frozen, thread-safe, unlike the coalition)
 detector = Psychowl::Detector.new(allowlist: %i[en fr de])
-detector.detect_lang("Bonjour tout le monde")
+detector.detect_lang("Traversez la rue, je vous trouverai un travail, a dit le président.")
+# => #<Psychowl::Lang fra (French)>
 
 # Every candidate with its score, best first
-Psychowl.candidates("Eu gostaria de reservar uma mesa", limit: 3)
-# => [[#<Psychowl::Lang por (Portuguese)>, 0.73], [#<Psychowl::Lang spa (Spanish)>, 0.69], ...]
+Psychowl.candidates(promise, limit: 3)
+# => [[#<Psychowl::Lang por (Portuguese)>, 0.71], [#<Psychowl::Lang spa (Spanish)>, 0.67], [#<Psychowl::Lang ita (Italian)>, 0.66]]
 
-# Mixed-language text, per sentence, with character ranges
-Psychowl.segments("Hello, this is English. Ceci est une phrase en français.").map { [_1.lang.code, _1.range] }
-# => [["eng", 0...24], ["fra", 24...56]]
+# Mixed-language text, per sentence, with character ranges (summit transcripts)
+summit = "Nobody detects languages better than me, believe me. Traversez la rue, je vous trouverai un travail."
+Psychowl.segments(summit).map { [_1.lang.code, _1.range] }
+# => [["eng", 0...53], ["fra", 53...100]]
 
 # Many texts at once (spread over all cores with the native engine)
-Psychowl.detect_many(comments.map(&:body))
+Psychowl.detect_many(press_releases.map(&:body))
 
 # Writing systems in a text
-Psychowl.scripts("Hello мир") # => {#<Psychowl::Script Latin> => 0.625, #<Psychowl::Script Cyrillic> => 0.375}
+Psychowl.scripts("Error 404: смысл жизни not found")
+# => {#<Psychowl::Script Latin> => 0.565, #<Psychowl::Script Cyrillic> => 0.435}
 
 # Pattern matching
-case Psychowl.detect(text)
-in {lang: {code: "eng"}, reliable: true} then :english
-in nil then :unknown
+case Psychowl.detect(speech)
+in {lang: {code: "eng"}, reliable: true} then :tremendous
+in {reliable: false} then :fake_news
+in nil then :no_comment
 end
 ```
 
@@ -84,9 +111,10 @@ language codes.
 ### Short texts
 
 Detection works on character trigrams, so it needs some text. A couple of
-words is a guess ("Hello" comes out as Italian with a confidence of 0.08).
-Check `reliable?` or `confidence` before trusting a result, or restrict the
-candidates with an allowlist.
+words is a guess: "Hello" comes out as Italian with a confidence of 0.08,
+and the owl stands by it. Check `reliable?` or `confidence` before trusting a
+result, or restrict the candidates with an allowlist. Same rule as campaign
+promises.
 
 ## Rails
 
@@ -94,10 +122,10 @@ The `language:` validator loads automatically in Rails apps (elsewhere:
 `require "psychowl/active_model"`).
 
 ```ruby
-class Post < ApplicationRecord
-  validates :body, language: { in: %i[en fr] }
-  validates :title, language: { not_in: :ru, reliable: true }, allow_blank: true
-  validates :bio, language: { in: :en, minimum_confidence: 0.5 }
+class CampaignPromise < ApplicationRecord
+  validates :text, language: { in: %i[en es] }
+  validates :fine_print, language: { reliable: true }, allow_blank: true
+  validates :excuse, language: { minimum_confidence: 0.5 } # "we will consider it positively" is not an excuse
 end
 ```
 
@@ -108,19 +136,20 @@ messages ship with the gem.
 PostgreSQL full-text search configuration for a language:
 
 ```ruby
-config = Psychowl.detect(post.body)&.lang&.pg_regconfig || "simple" # => "english"
-Post.where("to_tsvector(?::regconfig, body) @@ plainto_tsquery(?::regconfig, ?)", config, config, query)
+config = Psychowl.detect(speech.transcript)&.lang&.pg_regconfig || "simple" # => "german"
+Speech.where("to_tsvector(?::regconfig, transcript) @@ plainto_tsquery(?::regconfig, ?)", config, config, "pünktlich")
+# => [] (as expected)
 ```
 
 ## CLI
 
 ```console
-$ echo "¿Dónde está la biblioteca?" | psychowl
-spa	Spanish	Latin	1.00	reliable
-$ psychowl --candidates 3 post.txt
-$ psychowl --lines --json comments.txt     # one result per line, batch
-$ psychowl --segments --allow en,fr mixed.txt
-$ psychowl --scripts tweet.txt
+$ echo "Nobody detects languages better than me, believe me." | psychowl
+eng	English	Latin	0.89	unreliable
+$ psychowl --candidates 3 campaign_promises.txt
+$ psychowl --lines --json press_conference.txt   # one result per line, batch
+$ psychowl --segments --allow en,fr summit_transcript.txt
+$ psychowl --scripts leaked_memo.txt
 $ psychowl --languages
 ```
 

@@ -1,6 +1,4 @@
-//! The trigram model: rank a text's character trigrams and measure how far
-//! that ranking is from each language profile. Mirrors
-//! `lib/psychowl/ruby_engine/trigrams.rb`.
+//! Trigram model, mirrored by `lib/psychowl/ruby_engine/trigrams.rb`.
 
 use rustc_hash::FxHashMap;
 
@@ -93,7 +91,7 @@ fn distance(profile: &[Trigram], positions: &FxHashMap<Trigram, usize>) -> usize
             .map_or(MAX_TRIGRAM_DISTANCE, |&position| position.abs_diff(index));
     }
 
-    // Short texts cannot match every profile trigram; forgive what they could not hold.
+    // A short text cannot hold every profile trigram; do not count those.
     let unique = positions.len();
     if unique < MAX_TRIGRAM_DISTANCE {
         total = total.saturating_sub((MAX_TRIGRAM_DISTANCE - unique) * MAX_TRIGRAM_DISTANCE);

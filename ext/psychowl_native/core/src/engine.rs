@@ -1,5 +1,5 @@
-//! The detection algorithm. Mirrors `lib/psychowl/ruby_engine.rb` step by
-//! step: both engines must return identical results for identical input.
+//! The detection algorithm, mirrored by `lib/psychowl/ruby_engine.rb`.
+//! Both must return identical results.
 
 use std::cmp::Ordering;
 
@@ -123,8 +123,8 @@ fn detect_han(counts: &[usize], filter: &Filter) -> Option<Info> {
     Some(Info::new(lang, Script::Han, confidence))
 }
 
-/// Blends alphabet and trigram scores: short texts lean on the alphabet,
-/// longer ones on trigrams. Returns scores (best first) and the trigram count.
+/// Blended alphabet and trigram scores, best first (ties: lower language
+/// index), and the trigram count.
 #[expect(
     clippy::suboptimal_flops,
     reason = "a fused multiply-add rounds differently from the Ruby engine's multiply then add"
@@ -144,7 +144,6 @@ fn language_scores(text: &str, languages: &[Lang]) -> (Vec<(Lang, f64)>, usize) 
         scores.push((lang, score));
     }
 
-    // Highest score first; ties go to the lower language index.
     scores.sort_by(|(lang_a, score_a), (lang_b, score_b)| {
         score_b.partial_cmp(score_a).unwrap_or(Ordering::Equal).then_with(|| lang_a.cmp(lang_b))
     });
@@ -181,7 +180,6 @@ fn alphabet_scores(lowercase: &str, languages: &[Lang]) -> (Vec<f64>, usize) {
         return (vec![1.0; languages.len()], 1);
     }
 
-    // One pass over the text; each alphabet then sums its letters.
     let mut char_count = 0;
     let mut frequencies: FxHashMap<char, usize> = FxHashMap::default();
     for ch in lowercase.chars() {

@@ -1,26 +1,34 @@
 # psychowl
 
-It knows what language you speak: natural language and script detection.
+It knows what language you speak. It knows you skipped your lesson.
 
 ```rust
 use psychowl::{Detector, Lang, Script};
 
-let info = psychowl::detect("¿Dónde está la biblioteca? Estoy buscando un libro.").unwrap();
+let speech = "El presidente dijo que la economía va muy bien. \
+              Los precios todavía no se han enterado.";
+let info = psychowl::detect(speech).unwrap();
 assert_eq!(info.lang(), Lang::Spa);
 assert_eq!(info.script(), Script::Latin);
-assert!(info.is_reliable());
+assert!(info.is_reliable()); // more than the economy
 
-// Restrict the candidates
+// Restrict the candidates: Portuguese is not allowed, Spanish is closest
 let detector = Detector::with_allowlist(vec![Lang::Eng, Lang::Spa]);
-assert_eq!(detector.detect_lang("Eu gostaria de reservar uma mesa"), Some(Lang::Spa));
+let promise = "O presidente prometeu que desta vez a obra termina no prazo.";
+assert_eq!(detector.detect_lang(promise), Some(Lang::Spa));
 
-// Ranked candidates, mixed-language segments, script counts
-let ranked = Detector::new().candidates("Eu gostaria de reservar uma mesa");
-let text = "Hello, this is English. Ceci est une phrase en français.";
-for segment in Detector::new().segments(text) {
-    println!("{} {}", segment.info().lang(), segment.text(text));
+// Ranked candidates
+let ranked = Detector::new().candidates(promise); // por, spa, ita, ...
+
+// Mixed-language summit transcripts, per sentence
+let summit = "Nobody detects languages better than me, believe me. \
+              Traversez la rue, je vous trouverai un travail.";
+for segment in Detector::new().segments(summit) {
+    println!("{} {}", segment.info().lang(), segment.text(summit)); // eng ..., fra ...
 }
-let counts = psychowl::script_counts("Hello мир"); // indexed like Script::all()
+
+// Characters per script, indexed like Script::all()
+let counts = psychowl::script_counts("Это не война, это специальная военная операция.");
 ```
 
 `Lang` and `Script` are generated at build time from the plain-text tables in
