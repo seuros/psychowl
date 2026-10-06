@@ -4,7 +4,8 @@
 #
 #   docker run --rm -v "$PWD:/src" -w /src ruby:4.0-trixie tools/build_native_gem.sh x86_64-linux-gnu
 #
-# trixie sets the glibc floor (2.41); alpine builds the musl gems.
+# The extension needs glibc 2.34 (its newest symbol), not the build image's 2.41;
+# alpine builds the musl gems.
 set -eu
 platform="$1"
 upkg_installer="https://raw.githubusercontent.com/seuros/upkg/master/install.sh"

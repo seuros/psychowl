@@ -32,7 +32,8 @@ jobs:
           path: pkg/*.gem
           if-no-files-found: error
 
-  # trixie sets the glibc floor (2.41); alpine builds the musl gems.
+  # The extension needs glibc 2.34 (its newest symbol), not trixie's 2.41.
+  # Alpine builds the musl gems.
   linux:
     name: ${{ matrix.platform }}
     runs-on: ${{ matrix.runner }}

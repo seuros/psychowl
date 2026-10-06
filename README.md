@@ -56,11 +56,11 @@ Requires Ruby 4.0 or newer.
 gem "psychowl"
 ```
 
-Precompiled native gems ship for Linux (x86_64 and aarch64; glibc builds made
-on Debian 13, plus musl for Alpine), macOS 13+ (arm64, x86_64) and FreeBSD
-15.1 (amd64). No Rust, no compiler, nothing to build. Windows, JRuby and
-TruffleRuby get the pure Ruby gem: same results, just slower. Where the
-native extension can't load (a glibc older than Debian 13's, say), psychowl
+Precompiled native gems ship for Linux (x86_64 and aarch64; glibc 2.34+ such
+as Debian 12, Ubuntu 22.04 or RHEL 9, plus musl for Alpine), macOS 13+ (arm64,
+x86_64) and FreeBSD 15.1 (amd64). No Rust, no compiler, nothing to build.
+Windows, JRuby and TruffleRuby get the pure Ruby gem: same results, just
+slower. Where the native extension can't load (an older glibc, say), psychowl
 quietly uses its Ruby engine.
 
 ```ruby
