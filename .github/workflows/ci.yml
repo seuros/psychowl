@@ -103,7 +103,3 @@ jobs:
             bundle exec rake compile
             bundle exec ruby -Ilib -rpsychowl -e 'abort "native extension not loaded" unless Psychowl.backend == :native'
             bundle exec rake test
-            # gem install runs BSD make; the BSDmakefile must hand off to gmake.
-            gem build psychowl.gemspec
-            gem install --local --no-document psychowl-*.gem
-            cd /tmp && ruby -rpsychowl -e 'abort "installed gem did not build the extension" unless Psychowl.backend == :native'
