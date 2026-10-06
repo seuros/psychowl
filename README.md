@@ -60,8 +60,8 @@ Precompiled native gems ship for Linux (x86_64 and aarch64; glibc 2.34+ such
 as Debian 12, Ubuntu 22.04 or RHEL 9, plus musl for Alpine), macOS 13+ (arm64,
 x86_64) and FreeBSD 15.1 (amd64). No Rust, no compiler, nothing to build.
 Windows, JRuby and TruffleRuby get the pure Ruby gem: same results, just
-slower. Where the native extension can't load (an older glibc, say), psychowl
-quietly uses its Ruby engine.
+slower. Where a shipped native extension can't load (glibc older than 2.34,
+Alpine without `libgcc`), psychowl warns and uses its Ruby engine.
 
 ```ruby
 Psychowl.backend # => :native or :ruby

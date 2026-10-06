@@ -4,13 +4,19 @@
 # Ruby; an empty one (as CI matrices set) does not.
 return if %w[DISABLE_PSYCHOWL_NATIVE DISABLE_MATRYOSHKA_NATIVE].any? { !ENV.fetch(it, '').empty? }
 
+# Platform gems ship the binary under the Ruby ABI version; a dev build (rake
+# compile) leaves it next to this file. The pure Ruby gem has neither.
+shipped = File.join(__dir__, RUBY_VERSION[/\A\d+\.\d+/], "psychowl_native.#{RbConfig::CONFIG['DLEXT']}")
 begin
-  begin
-    require_relative "#{RUBY_VERSION[/\A\d+\.\d+/]}/psychowl_native"
-  rescue LoadError
+  if File.exist?(shipped)
+    require shipped
+  else
     require 'psychowl/psychowl_native'
   end
-rescue LoadError
+rescue LoadError => e
+  # A shipped binary that will not load (glibc older than 2.34, Alpine without
+  # libgcc) is a real fault, not the pure Ruby gem: say so.
+  warn "psychowl: native extension failed to load (#{e.message}); using the pure Ruby engine" if File.exist?(shipped)
   return
 end
 
