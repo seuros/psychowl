@@ -86,7 +86,9 @@ jobs:
           # only for its default Ruby). llvm: libclang for bindgen. rustup: the
           # crate's rust-version.
           prepare: |
-            pkg install -y ruby40 git curl llvm gmake
+            fetch -qo /tmp/upkg-install.sh https://raw.githubusercontent.com/seuros/upkg/master/install.sh
+            sh /tmp/upkg-install.sh
+            upkg install ruby40 git curl llvm gmake
             printf '%s\n' '#!/bin/sh' 'exec ruby40 -e "require %q(rubygems/gem_runner); Gem::GemRunner.new.run(ARGV)" -- "$@"' > /usr/local/bin/gem
             chmod +x /usr/local/bin/gem
             ln -sf ruby40 /usr/local/bin/ruby

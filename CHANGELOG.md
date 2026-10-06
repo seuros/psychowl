@@ -9,6 +9,9 @@ Korean, Polish, Turkish, Ukrainian, Vietnamese.
 
 - Pure Ruby engine plus the `psychowl` Rust crate, loaded as an optional
   native extension; a parity suite keeps both bit-identical.
+- Precompiled gems for Linux (x86_64/aarch64, glibc and musl), macOS
+  (arm64/x86_64) and FreeBSD 15.1 (amd64); a pure Ruby gem for everything
+  else.
 - `detect`, `detect_lang`, `detect_script`, `candidates`, `segments`,
   `detect_many`, `scripts`; allowlists and denylists that also apply to
   single-language scripts and Han.

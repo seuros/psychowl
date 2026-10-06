@@ -56,11 +56,12 @@ Requires Ruby 4.0 or newer.
 gem "psychowl"
 ```
 
-Precompiled native gems are built for Linux (glibc and musl, x86_64 and
-aarch64) and macOS (arm64, x86_64). On FreeBSD 15.1 (tested in CI; needs
-`gmake`) and everywhere else the extension compiles from source if Cargo is
-installed; otherwise psychowl quietly uses its Ruby engine. Windows gets the
-Ruby engine only.
+Precompiled native gems ship for Linux (x86_64 and aarch64; glibc builds made
+on Debian 13, plus musl for Alpine), macOS 13+ (arm64, x86_64) and FreeBSD
+15.1 (amd64). No Rust, no compiler, nothing to build. Windows, JRuby and
+TruffleRuby get the pure Ruby gem: same results, just slower. Where the
+native extension can't load (a glibc older than Debian 13's, say), psychowl
+quietly uses its Ruby engine.
 
 ```ruby
 Psychowl.backend # => :native or :ruby

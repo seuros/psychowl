@@ -19,12 +19,6 @@ begin
   RbSys::ExtensionTask.new('psychowl_native', GEMSPEC) do |ext|
     ext.ext_dir = 'ext/psychowl_native'
     ext.lib_dir = 'lib/psychowl'
-    ext.cross_compile = true
-    # rb_sys cross toolchains; FreeBSD has none and builds from source.
-    ext.cross_platform = %w[
-      aarch64-linux aarch64-linux-musl arm64-darwin
-      x86_64-darwin x86_64-linux x86_64-linux-musl
-    ]
   end
 rescue LoadError
   desc 'Native extension unavailable (rb_sys missing); pure Ruby only'
@@ -68,4 +62,46 @@ task :lint do
   sh 'cargo', 'clippy', '--manifest-path', CARGO_MANIFEST, '--workspace', '--all-targets', '--', '-D', 'warnings'
 end
 
+namespace :gem do
+  desc 'Build the pure Ruby gem (Windows, JRuby, TruffleRuby, anything unsupported)'
+  task ruby: :build
+
+  # A task argument, not PSYCHOWL_PLATFORM: set for the whole rake process, that
+  # would turn the gemspec into a platform gem for compile's bundler/setup too.
+  desc 'Build the precompiled gem for this machine (gem:native[platform] overrides the platform)'
+  task :native, [:platform] => :compile do |_task, args|
+    ruby_abi = RUBY_VERSION[/\A\d+\.\d+/]
+    binary = "psychowl_native.#{RbConfig::CONFIG['DLEXT']}"
+    staged = "lib/psychowl/#{ruby_abi}/#{binary}"
+    local = Gem::Platform.local
+    # A darwin version would limit the gem to that one macOS release.
+    platform = args[:platform] || (local.os == 'darwin' ? "#{local.cpu}-darwin" : local.to_s)
+
+    mkdir_p File.dirname(staged)
+    cp "lib/psychowl/#{binary}", staged
+    mkdir_p 'pkg'
+    Bundler.with_unbundled_env do
+      sh({ 'PSYCHOWL_PLATFORM' => platform }, 'gem', 'build', 'psychowl.gemspec',
+         '--output', "pkg/psychowl-#{GEMSPEC.version}-#{platform}.gem")
+    end
+  ensure
+    rm_rf File.dirname(staged) if staged
+  end
+
+  desc 'Push every built gem for this version to RubyGems'
+  task :push_all do
+    gems = Dir["pkg/psychowl-#{GEMSPEC.version}*.gem"]
+    abort "no gems in pkg/ for #{GEMSPEC.version}" if gems.empty?
+
+    gems.each { sh 'gem', 'push', it }
+  end
+end
+
 task default: 'test:all'
+
+# Bundler's release would push only the pure Ruby gem.
+Rake::Task['release'].clear
+desc 'Release: tag, then push the gems built by the release workflow (rake gem:push_all)'
+task :release do
+  abort 'Use the release workflow, then `rake gem:push_all` with every gem in pkg/'
+end
