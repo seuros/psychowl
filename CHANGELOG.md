@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-10-08)
 
 First release, for Ruby 4.0+ (CRuby, JRuby 10.1+, TruffleRuby 40+): 18 languages
 and 25 scripts. Wave 1: Arabic, English, French, German, Italian, Japanese,
