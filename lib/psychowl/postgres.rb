@@ -15,6 +15,7 @@ module Psychowl
       'fra' => 'french',
       'ind' => 'indonesian',
       'ita' => 'italian',
+      'nep' => 'nepali',
       'nld' => 'dutch',
       'por' => 'portuguese',
       'rus' => 'russian',
