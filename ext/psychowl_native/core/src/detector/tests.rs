@@ -39,8 +39,10 @@ fn han_follows_the_filter() {
 
 #[test]
 fn devanagari_is_shared() {
-    let marathi = "संध्याकाळी आपण ऑनलाइन जेवण मागवूया का? \
-                   मला आज स्वयंपाक करायचा कंटाळा आला आहे.";
+    let marathi = "संध्याकाळी आपण ऑनलाइन \
+                   जेवण मागवूया का? \
+                   मला आज स्वयंपाक करायचा \
+                   कंटाळा आला आहे.";
     assert_eq!(Detector::new().detect_lang(marathi), Some(Lang::Mar));
     assert_eq!(Detector::with_allowlist(vec![Lang::Hin]).detect_lang(marathi), Some(Lang::Hin));
 }

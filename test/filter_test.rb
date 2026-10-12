@@ -39,7 +39,9 @@ class FilterTest < Minitest::Test
   end
 
   def test_filter_applies_to_devanagari
-    marathi = 'संध्याकाळी आपण ऑनलाइन जेवण मागवूया का? मला आज स्वयंपाक करायचा कंटाळा आला आहे.'
+    marathi = 'संध्याकाळी आपण ऑनलाइन जेवण ' \
+              'मागवूया का? मला आज स्वयंपाक ' \
+              'करायचा कंटाळा आला आहे.'
 
     assert_equal 'mar', Psychowl.detect_lang(marathi).code
     assert_equal 'hin', Psychowl.detect_lang(marathi, allowlist: [:hin]).code
