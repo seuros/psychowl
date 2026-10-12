@@ -45,6 +45,7 @@ class FilterTest < Minitest::Test
 
     assert_equal 'mar', Psychowl.detect_lang(marathi).code
     assert_equal 'hin', Psychowl.detect_lang(marathi, allowlist: [:hin]).code
+    assert_equal 'nep', Psychowl.detect_lang(marathi, denylist: %i[mar hin]).code
   end
 
   def test_invalid_filters
