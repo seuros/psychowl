@@ -2,12 +2,13 @@
 
 ## Unreleased
 
-Wave 3: Marathi.
+Wave 3: Marathi and Nepali.
 
-- Marathi and Hindi are both written in Devanagari, so Devanagari text is
-  now scored between the two instead of always being detected as Hindi at
-  full confidence. Short Hindi text can come back with a lower confidence.
+- Hindi, Marathi and Nepali are all written in Devanagari, so Devanagari
+  text is now scored between them instead of always being detected as Hindi
+  at full confidence. Short Hindi text can come back with a lower confidence.
 - Devanagari alphabets: `ळ` favours Marathi, nukta forms favour Hindi.
+- Nepali maps to PostgreSQL's `nepali` text search configuration.
 
 ## 0.1.0 (2026-10-08)
 

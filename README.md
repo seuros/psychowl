@@ -178,7 +178,7 @@ Languages are added in waves; adding one is a data change, not a code change
 |---|---|
 | 1 (0.1) | Arabic, English, French, German, Italian, Japanese, Mandarin, Portuguese, Russian, Spanish |
 | 2 (0.1) | Dutch, Hindi, Indonesian, Korean, Polish, Turkish, Ukrainian, Vietnamese |
-| 3 | Marathi (Devanagari, alongside Hindi) |
+| 3 | Marathi, Nepali (Devanagari, alongside Hindi) |
 | 4 | the rest of whatlang's 70 |
 | 5 | new languages trained from our own corpora |
 
