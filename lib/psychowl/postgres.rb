@@ -20,6 +20,7 @@ module Psychowl
       'por' => 'portuguese',
       'rus' => 'russian',
       'spa' => 'spanish',
+      'tam' => 'tamil',
       'tur' => 'turkish'
     }.freeze
 
