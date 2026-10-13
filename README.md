@@ -43,6 +43,7 @@ Heads of state make the best test data: they talk a lot and say nothing.
 | hin | नेताजी ने वादा किया कि इस बार बिजली नहीं जाएगी। फिर बिजली चली गई। | The politician promised the power won't go out this time. Then the power went out. |
 | mar | मंत्र्यांनी आश्वासन दिले की या वर्षी रस्त्यांवर एकही खड्डा राहणार नाही. रस्त्याला हे कळवले गेले नाही. | The minister promised not a single pothole will be left on the roads this year. Nobody informed the road. |
 | nep | नेताले पाँच वर्षमा देशलाई सिंगापुर बनाउने वाचा गरे। पाँच वर्ष बित्यो, सडकको खाल्डो अझै उस्तै छ। | The leader promised to turn the country into Singapore in five years. Five years passed; the pothole hasn't moved. |
+| ben | মন্ত্রী বললেন, এবার বর্ষায় শহরে একফোঁটাও জল জমবে না। তারপর তিনি নৌকায় চড়ে বাড়ি ফিরলেন। | The minister said not a drop of water will pool in the city this monsoon. Then he went home by boat. |
 | tur | Bakan, ekonominin uçuşa geçtiğini söyledi. Kimse paraşüt dağıtmadı. | The minister said the economy has taken off. Nobody handed out parachutes. |
 | nld | De regering is gevallen. Dat is al de derde keer deze maand, en het is pas dinsdag. | The government has fallen. Third time this month, and it's only Tuesday. |
 | pol | Prezydent obiecał, że pociąg przyjedzie punktualnie. Pociąg nie został o tym poinformowany. | The president promised the train will be on time. Nobody told the train. |
@@ -178,7 +179,7 @@ Languages are added in waves; adding one is a data change, not a code change
 |---|---|
 | 1 (0.1) | Arabic, English, French, German, Italian, Japanese, Mandarin, Portuguese, Russian, Spanish |
 | 2 (0.1) | Dutch, Hindi, Indonesian, Korean, Polish, Turkish, Ukrainian, Vietnamese |
-| 3 | Marathi, Nepali (Devanagari, alongside Hindi) |
+| 3 | Bengali; Marathi, Nepali (Devanagari, alongside Hindi) |
 | 4 | the rest of whatlang's 70 |
 | 5 | new languages trained from our own corpora |
 
