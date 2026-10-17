@@ -2,8 +2,10 @@
 
 ## Unreleased
 
-Wave 3: Marathi, Nepali and Tamil.
+Wave 3: Bengali, Marathi, Nepali and Tamil.
 
+- Bengali script text is now detected as Bengali instead of having a script
+  but no language.
 - Hindi, Marathi and Nepali are all written in Devanagari, so Devanagari
   text is now scored between them instead of always being detected as Hindi
   at full confidence. Short Hindi text can come back with a lower confidence.
