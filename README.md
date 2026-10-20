@@ -46,6 +46,7 @@ Heads of state make the best test data: they talk a lot and say nothing.
 | ben | মন্ত্রী বললেন, এবার বর্ষায় শহরে একফোঁটাও জল জমবে না। তারপর তিনি নৌকায় চড়ে বাড়ি ফিরলেন। | The minister said not a drop of water will pool in the city this monsoon. Then he went home by boat. |
 | tam | அமைச்சர் இந்த ஆண்டுக்குள் எல்லா சாலைகளும் சரிசெய்யப்படும் என்று உறுதியளித்தார். சாலைகளுக்கு இது தெரிவிக்கப்படவில்லை. | The minister assured that all roads will be repaired within this year. Nobody informed the roads. |
 | tel | మంత్రి గోదావరి నీళ్లు అందరికీ అందిస్తామని మాట ఇచ్చారు. నదికి ఇది చెప్పలేదు. | The minister promised Godavari water for everyone. Nobody informed the river. |
+| kan | ಮಂತ್ರಿ ಹೇಳಿದರು, ಬೆಂಗಳೂರಿನ ಕೆರೆಗಳು ಈ ವರ್ಷ ಸ್ವಚ್ಛವಾಗುತ್ತವೆ. ಬೆಳ್ಳಂದೂರು ಕೆರೆಗೆ ಇದು ತಿಳಿಸಲಾಗಿಲ್ಲ. | The minister said Bangalore lakes will be clean this year. Nobody informed Bellandur lake. |
 | tur | Bakan, ekonominin uçuşa geçtiğini söyledi. Kimse paraşüt dağıtmadı. | The minister said the economy has taken off. Nobody handed out parachutes. |
 | nld | De regering is gevallen. Dat is al de derde keer deze maand, en het is pas dinsdag. | The government has fallen. Third time this month, and it's only Tuesday. |
 | pol | Prezydent obiecał, że pociąg przyjedzie punktualnie. Pociąg nie został o tym poinformowany. | The president promised the train will be on time. Nobody told the train. |
@@ -181,7 +182,7 @@ Languages are added in waves; adding one is a data change, not a code change
 |---|---|
 | 1 (0.1) | Arabic, English, French, German, Italian, Japanese, Mandarin, Portuguese, Russian, Spanish |
 | 2 (0.1) | Dutch, Hindi, Indonesian, Korean, Polish, Turkish, Ukrainian, Vietnamese |
-| 3 | Bengali; Marathi, Nepali (Devanagari, alongside Hindi); Tamil; Telugu |
+| 3 | Bengali; Kannada; Marathi, Nepali (Devanagari, alongside Hindi); Tamil; Telugu |
 | 4 | the rest of whatlang's 70 |
 | 5 | new languages trained from our own corpora |
 
