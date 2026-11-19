@@ -44,7 +44,7 @@ Heads of state make the best test data: they talk a lot and say nothing.
 | mar | मंत्र्यांनी आश्वासन दिले की या वर्षी रस्त्यांवर एकही खड्डा राहणार नाही. रस्त्याला हे कळवले गेले नाही. | The minister promised not a single pothole will be left on the roads this year. Nobody informed the road. |
 | nep | नेताले पाँच वर्षमा देशलाई सिंगापुर बनाउने वाचा गरे। पाँच वर्ष बित्यो, सडकको खाल्डो अझै उस्तै छ। | The leader promised to turn the country into Singapore in five years. Five years passed; the pothole hasn't moved. |
 | ben | মন্ত্রী বললেন, এবার বর্ষায় শহরে একফোঁটাও জল জমবে না। তারপর তিনি নৌকায় চড়ে বাড়ি ফিরলেন। | The minister said not a drop of water will pool in the city this monsoon. Then he went home by boat. |
-| guj | મંત્રીએ કહ્યું કે આ વખતે નર્મદાનું પાણી દરેક ગામ સુધી પહોંચશે. નદીને આ વાત કહેવામાં આવી નહીં. | The minister said Narmada water will reach every village this time. Nobody informed the river. |
+| guj | મંત્રીએ કહ્યું કે આ વખતે નર્મદાનું પાણી દરેક ગામ સુધી પહોંચશે. નદીને આ વાત કહેવામાં આવી નહોતી. | The minister said Narmada water will reach every village this time. Nobody informed the river. |
 | tam | அமைச்சர் இந்த ஆண்டுக்குள் எல்லா சாலைகளும் சரிசெய்யப்படும் என்று உறுதியளித்தார். சாலைகளுக்கு இது தெரிவிக்கப்படவில்லை. | The minister assured that all roads will be repaired within this year. Nobody informed the roads. |
 | tel | మంత్రి గోదావరి నీళ్లు అందరికీ అందిస్తామని మాట ఇచ్చారు. నదికి ఇది చెప్పలేదు. | The minister promised Godavari water for everyone. Nobody informed the river. |
 | kan | ಮಂತ್ರಿ ಹೇಳಿದರು, ಬೆಂಗಳೂರಿನ ಕೆರೆಗಳು ಈ ವರ್ಷ ಸ್ವಚ್ಛವಾಗುತ್ತವೆ. ಬೆಳ್ಳಂದೂರು ಕೆರೆಗೆ ಇದು ತಿಳಿಸಲಾಗಿಲ್ಲ. | The minister said Bangalore lakes will be clean this year. Nobody informed Bellandur lake. |
